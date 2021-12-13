@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import $api from "../../../http/config";
-import {FilmType} from "../../pages/FilmTypes";
+import {FilmType} from "../../types/FilmTypes";
 import LoadingPage from "../../LoadingPage";
 import {
     Alert,
@@ -17,8 +17,8 @@ import {
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import {DatePicker} from '@mui/lab';
-import {AgeLimitType} from "../../pages/AgeLimitPage";
-import {CountryType} from "../../pages/CountryTypes";
+import {AgeLimitType} from "../../types/AgeLimitTypes";
+import {CountryType} from "../../types/CountryTypes";
 
 type FilmRequest = {
     id: number,

@@ -3,10 +3,10 @@ import React, {useContext, useEffect, useState} from "react";
 
 import {Alert, Button, Stack} from "@mui/material";
 import {IPage} from '../../../models/response/IPage';
-import {FilmType} from "../../pages/FilmTypes";
+import {FilmType} from "../../types/FilmTypes";
 import {Link, useNavigate} from "react-router-dom";
 import {Add, Block, Done} from "@mui/icons-material";
-import {CountryType} from "../../pages/CountryTypes";
+import {CountryType} from "../../types/CountryTypes";
 import {Context} from '../../..';
 import $api from '../../../http/config';
 import LoadingPage from '../../LoadingPage';
@@ -51,6 +51,11 @@ const columns: GridColDef[] = [
                                              color='secondary'>{c.shortName}</Button>))}
             </Stack>)
         }
+    },
+    {
+        field: '', headerName: 'Постеры', minWidth: 150, renderCell: params => (
+            <Button color='secondary' href={`/posters?film=${params.id}`}>Постеры...</Button>
+        )
     }
 ]
 

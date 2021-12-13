@@ -13,6 +13,7 @@ import FilmCreate from "./components/admin/film/FilmCreate";
 import CountryList from "./components/admin/country/CountryList";
 import CountryEdit from "./components/admin/country/CountryEdit";
 import CountryCreate from "./components/admin/country/CountryCreate";
+import PosterList from "./components/admin/poster/PosterList";
 
 function App() {
     const {store} = useContext(Context);
@@ -51,6 +52,9 @@ function App() {
                     <Route path={'/countries'} element={<CountryList/>}/>
                     <Route path={'/countries/:id'} element={<CountryEdit/>}/>
                     <Route path={'/countries/add'} element={<CountryCreate/>}/>
+                </Routes>
+                <Routes>
+                    <Route path={'/posters'} element={<PosterList/>}/>
                 </Routes>
             </GeneralPage>
         </BrowserRouter>

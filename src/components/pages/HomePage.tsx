@@ -28,11 +28,6 @@ export default function HomePage() {
                         Пользователи
                     </Button>
                     <Button style={{minWidth: 200, maxWidth: '25%', height: 200, width: '100%', margin: 20}}
-                            href='/posters'
-                            variant='outlined'>
-                        Постеры
-                    </Button>
-                    <Button style={{minWidth: 200, maxWidth: '25%', height: 200, width: '100%', margin: 20}}
                             variant='outlined'>
                         Залы
                     </Button>

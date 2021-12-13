@@ -1,4 +1,4 @@
-import {AgeLimitType} from "./AgeLimitPage";
+import {AgeLimitType} from "./AgeLimitTypes";
 import {CountryType} from "./CountryTypes";
 
 export type FilmType = {
