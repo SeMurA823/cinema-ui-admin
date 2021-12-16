@@ -7,17 +7,16 @@ import {CountryType} from "../../types/CountryTypes";
 
 type CountryRequest = {
     id: string,
-    shortName: string,
+    name: string,
     fullName: string
 }
 
 
-export default function CountryCreate() {
+export default function HallCreate() {
     const [loaded, setLoaded] = useState<boolean>(false);
     const [error, setError] = useState<boolean>(false);
     const [id, setId] = useState<string>('');
-    const [shortName, setShortName] = useState<string>('');
-    const [fullName, setFullName] = useState<string>('');
+    const [name, setName] = useState<string>('');
     const [success, setSuccess] = useState<boolean>(false);
     const location = useLocation();
     const navigate = useNavigate();
@@ -29,10 +28,9 @@ export default function CountryCreate() {
     async function save() {
         setLoaded(false);
         try {
-            const response = await $api.post<CountryType>(`/admin/countries/create`, JSON.stringify({
+            const response = await $api.post<CountryType>(`/admin/halls/create`, JSON.stringify({
                 id: id,
-                shortName: shortName,
-                fullName: fullName
+                name: name,
             } as CountryRequest));
             setSuccess(false);
             setSuccess(true);
@@ -62,11 +60,8 @@ export default function CountryCreate() {
             {error && <Alert severity='error'>Ошибка</Alert>}
             <Stack style={{maxWidth: 768}} spacing={2}>
                 <Typography variant='h3' padding={2}>Создание</Typography>
-                <TextField fullWidth value={id} label='ISO' onChange={event => setId(event.target.value)}/>
-                <TextField fullWidth value={shortName} label='Краткое название'
-                           onChange={event => setShortName(event.target.value)}/>
-                <TextField fullWidth value={fullName} label='Полное название'
-                           onChange={event => setFullName(event.target.value)}/>
+                <TextField fullWidth value={name} label='Название'
+                           onChange={event => setName(event.target.value)}/>
                 {(success) &&
                     <Alert severity='success'>Изменено</Alert>
                 }

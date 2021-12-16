@@ -1,26 +1,27 @@
 import React, {useEffect, useState} from "react";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import $api from "../../../http/config";
 import LoadingPage from "../../LoadingPage";
 import {Alert, Button, Stack, TextField, Typography} from "@mui/material";
-import {CountryType} from "../../types/CountryTypes";
+import {HallType} from "../../types/HallTypes";
 
 type CountryRequest = {
     id: string,
-    shortName: string,
+    name: string,
     fullName: string
 }
 
 
-export default function CountryCreate() {
+export default function HallEdit() {
     const [loaded, setLoaded] = useState<boolean>(false);
     const [error, setError] = useState<boolean>(false);
-    const [id, setId] = useState<string>('');
-    const [shortName, setShortName] = useState<string>('');
-    const [fullName, setFullName] = useState<string>('');
+    const [id, setId] = useState<number>(-1);
+    const [name, setName] = useState<string>('');
     const [success, setSuccess] = useState<boolean>(false);
     const location = useLocation();
     const navigate = useNavigate();
+
+    const hallId = useParams().id;
 
     const toPreviousPage = () => {
         navigate(-1);
@@ -29,12 +30,10 @@ export default function CountryCreate() {
     async function save() {
         setLoaded(false);
         try {
-            const response = await $api.post<CountryType>(`/admin/countries/create`, JSON.stringify({
+            const response = await $api.post<HallType>(`/admin/halls/${hallId}`, JSON.stringify({
                 id: id,
-                shortName: shortName,
-                fullName: fullName
-            } as CountryRequest));
-            setSuccess(false);
+                name: name,
+            }));
             setSuccess(true);
             setError(false);
         } catch (e) {
@@ -50,7 +49,19 @@ export default function CountryCreate() {
     }
 
     useEffect(() => {
-        setLoaded(true);
+        setLoaded(false);
+        $api.get<HallType>(`/admin/halls/${hallId}`)
+            .then(response => response.data)
+            .then(data => {
+                setId(data.id);
+                setName(data.name);
+            })
+            .catch(error => {
+                setError(error)
+            })
+            .finally(() => {
+                setLoaded(true);
+            })
     }, [])
 
 
@@ -61,12 +72,10 @@ export default function CountryCreate() {
         <Stack alignItems='center' minHeight='100vh'>
             {error && <Alert severity='error'>Ошибка</Alert>}
             <Stack style={{maxWidth: 768}} spacing={2}>
-                <Typography variant='h3' padding={2}>Создание</Typography>
-                <TextField fullWidth value={id} label='ISO' onChange={event => setId(event.target.value)}/>
-                <TextField fullWidth value={shortName} label='Краткое название'
-                           onChange={event => setShortName(event.target.value)}/>
-                <TextField fullWidth value={fullName} label='Полное название'
-                           onChange={event => setFullName(event.target.value)}/>
+                <Typography variant='h3' padding={2}>Редактирование</Typography>
+                <TextField fullWidth value={id} label='ID' disabled/>
+                <TextField fullWidth value={name} label='Название'
+                           onChange={event => setName(event.target.value)}/>
                 {(success) &&
                     <Alert severity='success'>Изменено</Alert>
                 }

@@ -14,6 +14,9 @@ import CountryList from "./components/admin/country/CountryList";
 import CountryEdit from "./components/admin/country/CountryEdit";
 import CountryCreate from "./components/admin/country/CountryCreate";
 import PosterList from "./components/admin/poster/PosterList";
+import HallList from "./components/admin/hall/HallList";
+import HallCreate from "./components/admin/hall/HallCreate";
+import HallEdit from "./components/admin/hall/HallEdit";
 
 function App() {
     const {store} = useContext(Context);
@@ -55,6 +58,11 @@ function App() {
                 </Routes>
                 <Routes>
                     <Route path={'/posters'} element={<PosterList/>}/>
+                </Routes>
+                <Routes>
+                    <Route path={'/halls'} element={<HallList/>}/>
+                    <Route path={'/halls/add'} element={<HallCreate/>}/>
+                    <Route path={'/halls/:id'} element={<HallEdit/>}/>
                 </Routes>
             </GeneralPage>
         </BrowserRouter>
