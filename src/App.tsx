@@ -17,6 +17,7 @@ import PosterList from "./components/admin/poster/PosterList";
 import HallList from "./components/admin/hall/HallList";
 import HallCreate from "./components/admin/hall/HallCreate";
 import HallEdit from "./components/admin/hall/HallEdit";
+import SeatList from "./components/admin/seats/SeatList";
 
 function App() {
     const {store} = useContext(Context);
@@ -63,6 +64,9 @@ function App() {
                     <Route path={'/halls'} element={<HallList/>}/>
                     <Route path={'/halls/add'} element={<HallCreate/>}/>
                     <Route path={'/halls/:id'} element={<HallEdit/>}/>
+                </Routes>
+                <Routes>
+                    <Route path={'/seats'} element={<SeatList/>}/>
                 </Routes>
             </GeneralPage>
         </BrowserRouter>

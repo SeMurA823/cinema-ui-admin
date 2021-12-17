@@ -19,6 +19,11 @@ type HallListState = {
 const columns: GridColDef[] = [
     {field: 'id', headerName: 'ID', minWidth: 50},
     {field: 'name', headerName: 'Название', minWidth: 200},
+    {
+        field: '',
+        headerName: 'Места',
+        renderCell: params => (<Button href={`/seats?hall=${params.id}`}>Места...</Button>)
+    }
 ]
 
 const order: GridSortDirection[] = [

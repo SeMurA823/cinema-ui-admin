@@ -5,7 +5,7 @@ export type HallType = {
 }
 
 export type SeatType = {
-    id: number,
+    id?: number,
     row: number,
     number: number,
     unUsed: boolean
