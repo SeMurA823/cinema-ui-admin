@@ -30,7 +30,7 @@ export default function SeatList() {
     useEffect(() => {
         let mounted = true;
         const asyncFoo = async () => {
-            await getAll(state);
+            await getAll();
         }
         if (mounted)
             asyncFoo();
@@ -44,8 +44,7 @@ export default function SeatList() {
             <Alert severity='error'>Ошибка</Alert>
         )
 
-    function getAll(requestState: Array<Array<SeatType>>) {
-        console.log(requestState);
+    function getAll() {
         $api.get<Array<Array<SeatType>>>(`/admin/halls/${hallId}/seats`)
             .then(response => response.data)
             .then(data => {
@@ -63,62 +62,27 @@ export default function SeatList() {
         setState(state.filter(x => x.length > 0).concat([[]] as SeatType[][]));
     }
 
-    const addItem = (row: number) => {
-        state[row - 1].push({
-            number: (state[row - 1].length + 1),
-            row: row,
-            unUsed: false
-        })
-        setState([...state]);
+    const addItem = async (row: number) => {
+        await $api.post(`/admin/halls/${hallId}/seats/create?row=${row}`, {});
+        getAll();
     }
 
-    const deleteSelectedItems = () => {
-        clickList.forEach((value, index) => {
-            state.forEach((arr) => {
-                if (arr.includes(value)) {
-                    arr.splice(arr.indexOf(value), 1);
-                }
-            })
-        });
+    const deleteSelectedItems = async () => {
+        await $api.delete(`/admin/halls/${hallId}/seats?id=${clickList.map(x => x.id)}`);
         clickList.splice(0, clickList.length);
-        state.forEach((arr, arrIndex) => {
-            arr.forEach((value, index) => value.number = (index + 1));
-        })
-        setState(state.filter(x => x.length > 0));
+        getAll();
     }
 
-    const disableSelectedItems = () => {
-        clickList.forEach((value, index) => {
-            state.forEach((arr) => {
-                if (arr.includes(value)) {
-                    arr[arr.indexOf(value)].unUsed = true;
-                }
-            })
-        });
+    const disableSelectedItems = async () => {
+        await $api.post(`/admin/halls/${hallId}/seats?id=${clickList.map(x => x.id)}&used=false`)
         clickList.splice(0, clickList.length);
-        state.forEach((arr) => {
-            arr.forEach((value, index) => value.number = (index + 1));
-        })
-        setState([...state]);
+        getAll();
     }
 
-    const enableSelectedItems = () => {
-        clickList.forEach((value, index) => {
-            state.forEach((arr) => {
-                if (arr.includes(value)) {
-                    arr[arr.indexOf(value)].unUsed = false;
-                }
-            })
-        });
+    const enableSelectedItems = async () => {
+        await $api.post(`/admin/halls/${hallId}/seats?id=${clickList.map(x => x.id)}&used=true`)
         clickList.splice(0, clickList.length);
-        state.forEach((arr) => {
-            arr.forEach((value, index) => value.number = (index + 1));
-        })
-        setState([...state]);
-    }
-
-    const x = () => {
-
+        getAll();
     }
 
     if (!loaded)
@@ -171,10 +135,7 @@ export default function SeatList() {
                         </Button>
                     </Stack>
                     <Stack direction='row' justifyContent='center' spacing={2}>
-                        <Button color='inherit' variant={'contained'}>
-                            Отмена
-                        </Button>
-                        <Button color='success' variant={'contained'}>
+                        <Button color='success' variant={'contained'} onClick={() => navigate(-1)}>
                             Готово
                         </Button>
                     </Stack>
