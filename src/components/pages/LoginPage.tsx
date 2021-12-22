@@ -2,7 +2,7 @@ import React, {FormEvent, useContext, useState} from "react";
 import {Alert, Button, ButtonGroup, Stack, TextField, ToggleButton, Typography} from "@mui/material";
 import {Context} from "../../index";
 import {observer} from "mobx-react-lite"
-import {useLocation, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 interface ILoginPage {
     onLogin?(x?: Event): void,
@@ -14,8 +14,6 @@ function LoginPage(props: ILoginPage) {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [rememberMe, setRememberMe] = useState<boolean>(false);
-    let location = useLocation();
-    const {from} = location.state || {from: {pathname: '/'}}
 
     const {store} = useContext(Context)
 

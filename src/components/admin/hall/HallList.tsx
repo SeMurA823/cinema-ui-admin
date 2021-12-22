@@ -143,6 +143,7 @@ export default function HallList() {
             <DataGrid pageSize={state.data.size}
                       isRowSelectable={() => false}
                       editMode='row'
+                      autoHeight
                       columns={columns}
                       onRowDoubleClick={(params, event, details) => {
                           navigate(`/halls/${params.getValue(params.id, 'id')}`)

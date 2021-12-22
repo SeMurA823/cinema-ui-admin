@@ -18,55 +18,60 @@ import HallList from "./components/admin/hall/HallList";
 import HallCreate from "./components/admin/hall/HallCreate";
 import HallEdit from "./components/admin/hall/HallEdit";
 import SeatList from "./components/admin/seats/SeatList";
+import UserList from "./components/admin/user/UserList";
+import RoleList from "./components/admin/user/RoleList";
+import AuthenticatedPage from "./components/pages/AuthenticatedPage";
+import FilmMakerList from "./components/admin/maker/FilmMakerList";
+import FilmMakerCreate from "./components/admin/maker/FilmMakerCreate";
+import FilmMakerEdit from "./components/admin/maker/FilmMakerEdit";
+import FilmScreeningList from "./components/admin/screening/FilmScreeningList";
+import FilmScreeningCreate from "./components/admin/screening/FilmScreeningCreate";
+import FilmScreeningEdit from "./components/admin/screening/FilmScreeningEdit";
+import PurchaseList from "./components/admin/purchase/PurchaseList";
+import TicketList from "./components/admin/purchase/TicketList";
 
 function App() {
     const {store} = useContext(Context);
-    const [isAuth, setIsAuth] = useState(false);
+
     const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
-        setLoaded(false);
-        if (localStorage.getItem('token')) {
-            store.refresh()
-                .then(() => {
-                    setIsAuth(true);
-                    setLoaded(true);
-                })
-        } else {
-            setLoaded(true);
-        }
+        store.refresh()
+            .finally(() => setLoaded(true));
     }, [])
 
-    if (!store.loaded)
+    if (!loaded)
         return (<LoadingPage/>)
 
     return (
         <BrowserRouter>
             <GeneralPage>
                 <Routes>
-                    <Route path='/' element={<HomePage/>}/>
                     <Route path='/sign-in' element={<LoginPage/>}/>
-                </Routes>
-                <Routes>
-                    <Route path={'/films'} element={<FilmList/>}/>
-                    <Route path={'/films/:id'} element={<FilmEdit/>}/>
-                    <Route path={'/films/add'} element={<FilmCreate/>}/>
-                </Routes>
-                <Routes>
-                    <Route path={'/countries'} element={<CountryList/>}/>
-                    <Route path={'/countries/:id'} element={<CountryEdit/>}/>
-                    <Route path={'/countries/add'} element={<CountryCreate/>}/>
-                </Routes>
-                <Routes>
-                    <Route path={'/posters'} element={<PosterList/>}/>
-                </Routes>
-                <Routes>
-                    <Route path={'/halls'} element={<HallList/>}/>
-                    <Route path={'/halls/add'} element={<HallCreate/>}/>
-                    <Route path={'/halls/:id'} element={<HallEdit/>}/>
-                </Routes>
-                <Routes>
-                    <Route path={'/seats'} element={<SeatList/>}/>
+                    <Route path='/' element={<AuthenticatedPage><HomePage/></AuthenticatedPage>}/>
+                    <Route path={'/films'} element={<AuthenticatedPage><FilmList/></AuthenticatedPage>}/>
+                    <Route path={'/films/:id'} element={<AuthenticatedPage><FilmEdit/></AuthenticatedPage>}/>
+                    <Route path={'/films/add'} element={<AuthenticatedPage><FilmCreate/></AuthenticatedPage>}/>
+                    <Route path={'/countries'} element={<AuthenticatedPage><CountryList/></AuthenticatedPage>}/>
+                    <Route path={'/countries/:id'} element={<AuthenticatedPage><CountryEdit/></AuthenticatedPage>}/>
+                    <Route path={'/countries/add'} element={<AuthenticatedPage><CountryCreate/></AuthenticatedPage>}/>
+                    <Route path={'/posters'} element={<AuthenticatedPage><PosterList/></AuthenticatedPage>}/>
+                    <Route path={'/halls'} element={<AuthenticatedPage><HallList/></AuthenticatedPage>}/>
+                    <Route path={'/halls/add'} element={<AuthenticatedPage><HallCreate/></AuthenticatedPage>}/>
+                    <Route path={'/halls/:id'} element={<AuthenticatedPage><HallEdit/></AuthenticatedPage>}/>
+                    <Route path={'/seats'} element={<AuthenticatedPage><SeatList/></AuthenticatedPage>}/>
+                    <Route path={'/users'} element={<AuthenticatedPage><UserList/></AuthenticatedPage>}/>
+                    <Route path={'/roles'} element={<AuthenticatedPage><RoleList/></AuthenticatedPage>}/>
+                    <Route path={'/makers'} element={<AuthenticatedPage><FilmMakerList/></AuthenticatedPage>}/>
+                    <Route path={'/makers/create'} element={<AuthenticatedPage><FilmMakerCreate/></AuthenticatedPage>}/>
+                    <Route path={'/makers/:id'} element={<AuthenticatedPage><FilmMakerEdit/></AuthenticatedPage>}/>
+                    <Route path={'/screenings'} element={<AuthenticatedPage><FilmScreeningList/></AuthenticatedPage>}/>
+                    <Route path={'/screenings/create'}
+                           element={<AuthenticatedPage><FilmScreeningCreate/></AuthenticatedPage>}/>
+                    <Route path={'/screenings/:id'}
+                           element={<AuthenticatedPage><FilmScreeningEdit/></AuthenticatedPage>}/>
+                    <Route path={'/purchases'} element={<AuthenticatedPage><PurchaseList/></AuthenticatedPage>}/>
+                    <Route path={'/tickets'} element={<AuthenticatedPage><TicketList/></AuthenticatedPage>}/>
                 </Routes>
             </GeneralPage>
         </BrowserRouter>

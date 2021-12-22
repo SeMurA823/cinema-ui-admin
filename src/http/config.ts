@@ -30,11 +30,13 @@ $api.interceptors.response.use((config) => {
     const originalRequest = error.config;
     if (error.response.status === 401 || error.response.status === 403) {
         if (error.config && !error.config._isRetry && !refreshing) {
+            console.log(error.config);
             refreshing = true;
             refreshRequest = AuthService.refresh();
             const response = await refreshRequest;
             localStorage.setItem('token', response.data.accessToken);
             originalRequest._isRetry = true;
+            refreshing = false;
             return $api.request(originalRequest);
         }
         if (refreshing) {

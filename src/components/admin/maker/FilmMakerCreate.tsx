@@ -1,27 +1,26 @@
 import React, {useEffect, useState} from "react";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import $api from "../../../http/config";
 import LoadingPage from "../../LoadingPage";
 import {Alert, Button, Stack, TextField, Typography} from "@mui/material";
-import {HallType} from "../../types/HallTypes";
 
-type CountryRequest = {
-    id: string,
-    name: string,
-    fullName: string
+type FilmMakerRequest = {
+    id: number,
+    firstName: string,
+    lastName: string,
+    patronymic: string | undefined | null
 }
 
 
-export default function HallEdit() {
+export default function FilmMakerCreate() {
     const [loaded, setLoaded] = useState<boolean>(false);
     const [error, setError] = useState<boolean>(false);
-    const [id, setId] = useState<number>(-1);
-    const [name, setName] = useState<string>('');
+    const [id, setId] = useState<number>();
+    const [firstName, setFirstName] = useState<string>('');
+    const [lastName, setLastName] = useState<string>('');
+    const [patronymic, setPatronymic] = useState<string>('');
     const [success, setSuccess] = useState<boolean>(false);
-    const location = useLocation();
     const navigate = useNavigate();
-
-    const hallId = useParams().id;
 
     const toPreviousPage = () => {
         navigate(-1);
@@ -30,10 +29,13 @@ export default function HallEdit() {
     async function save() {
         setLoaded(false);
         try {
-            const response = await $api.post<HallType>(`/admin/halls/${hallId}`, JSON.stringify({
+            await $api.post(`/admin/filmmakers/create`, JSON.stringify({
                 id: id,
-                name: name,
-            }));
+                firstName: firstName,
+                lastName: lastName,
+                patronymic: patronymic
+            } as FilmMakerRequest));
+            setSuccess(false);
             setSuccess(true);
             setError(false);
         } catch (e) {
@@ -49,19 +51,7 @@ export default function HallEdit() {
     }
 
     useEffect(() => {
-        setLoaded(false);
-        $api.get<HallType>(`/admin/halls/${hallId}`)
-            .then(response => response.data)
-            .then(data => {
-                setId(data.id);
-                setName(data.name);
-            })
-            .catch(error => {
-                setError(error)
-            })
-            .finally(() => {
-                setLoaded(true);
-            })
+        setLoaded(true);
     }, [])
 
 
@@ -72,12 +62,15 @@ export default function HallEdit() {
         <Stack alignItems='center' minHeight='100vh'>
             {error && <Alert severity='error'>Ошибка</Alert>}
             <Stack style={{maxWidth: 768}} spacing={2}>
-                <Typography variant='h3' padding={2}>Редактирование</Typography>
-                <TextField fullWidth value={id} label='ID' disabled/>
-                <TextField fullWidth value={name} label='Название'
-                           onChange={event => setName(event.target.value)}/>
+                <Typography variant='h3' padding={2}>Создание</Typography>
+                <TextField fullWidth value={lastName} label='Фамилия'
+                           onChange={event => setLastName(event.target.value)}/>
+                <TextField fullWidth value={firstName} label='Имя'
+                           onChange={event => setFirstName(event.target.value)}/>
+                <TextField fullWidth value={patronymic} label='Отчество'
+                           onChange={event => setPatronymic(event.target.value)}/>
                 {(success) &&
-                    <Alert severity='success'>Изменено</Alert>
+                    <Alert severity='success'>Созданно</Alert>
                 }
                 <Stack direction='row' spacing={2} justifyContent='center'>
                     <Button color='inherit' variant='outlined' onClick={() => cancel()}>

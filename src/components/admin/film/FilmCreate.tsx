@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import $api from "../../../http/config";
 import LoadingPage from "../../LoadingPage";
 import {
@@ -27,7 +27,8 @@ type FilmRequest = {
     plot: string,
     countriesId: string[],
     ageLimitId: string,
-    isActive: boolean
+    isActive: boolean,
+    duration: number
 }
 
 
@@ -38,6 +39,7 @@ export default function FilmCreate() {
     const [plot, setPlot] = useState<string>('');
     const [localPremiere, setLocalPremiere] = useState<Date>(new Date());
     const [worldPremiere, setWorldPremiere] = useState<Date>(new Date());
+    const [duration, setDuration] = useState<number>(0)
     const [ageLimit, setAgeLimit] = useState<AgeLimitType>({} as AgeLimitType)
     const [ageLimits, setAgeLimits] = useState<Array<AgeLimitType>>([]);
     const [ageLimitsLoaded, setAgeLimitsLoaded] = useState<boolean>(true);
@@ -46,7 +48,6 @@ export default function FilmCreate() {
     const [countryListLoaded, setCountryListLoaded] = useState<boolean>(false);
     const [isActive, setIsActive] = useState<boolean>(false);
     const [success, setSuccess] = useState<boolean>(false);
-    const location = useLocation();
     const navigate = useNavigate();
 
     const toPreviousPage = () => {
@@ -62,7 +63,8 @@ export default function FilmCreate() {
             worldPremiere: worldPremiere,
             ageLimitId: ageLimit.id,
             countriesId: countries.map(x => x.id),
-            isActive: isActive
+            isActive: isActive,
+            duration: duration
         } as FilmRequest))
             .then(() => setSuccess(true))
             .catch(() => setError(true))
@@ -140,6 +142,10 @@ export default function FilmCreate() {
                         onChange={(date, selectionState) => setWorldPremiere((date) ? date : new Date())}
                         renderInput={(params) => <TextField {...params}/>}/>
                 </LocalizationProvider>
+                <TextField inputProps={{inputMode: 'numeric', pattern: '[0-9]*'}} value={duration}
+                           label='Продолжительность (мин)' onChange={event => {
+                    setDuration(+event.target.value);
+                }}/>
                 <Autocomplete
                     options={ageLimits}
                     loading={!ageLimitsLoaded}
@@ -149,7 +155,7 @@ export default function FilmCreate() {
                         }
                     }}
                     getOptionDisabled={(option) => ageLimit === option}
-                    getOptionLabel={(option) => option.value}
+                    getOptionLabel={(option) => option.id}
                     renderInput={(params) => (
                         <TextField
                             {...params}

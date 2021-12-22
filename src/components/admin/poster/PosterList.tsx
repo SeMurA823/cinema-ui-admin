@@ -135,9 +135,9 @@ export default function PosterList() {
                     <input id='poster-file' type='file' accept='image/*' style={{display: 'none'}}
                            onChange={event => uploadFile(event)}/>
                 </Button>
-                <Stack sx={{flexWrap: 'wrap'}} direction='row' spacing={2} padding={2} alignItems='center'>
+                <Stack sx={{flexWrap: 'wrap'}} direction='row' padding={2} alignItems='center'>
                     {state.data.content.map(p =>
-                        <Card sx={{maxWidth: 345}} key={p.id}>
+                        <Card sx={{maxWidth: 345, margin: 2, backgroundColor: '#2f2f2f'}} key={p.id}>
                             <CardMedia
                                 component='img'
                                 image={`${SERVER_URL}/files/${p.filename}`}/>

@@ -1,4 +1,5 @@
 import {DataGrid, GridColDef, GridSortDirection, GridSortModel} from '@mui/x-data-grid';
+import * as duration from 'duration-fns'
 import React, {useContext, useEffect, useState} from "react";
 
 import {Alert, Button, Stack} from "@mui/material";
@@ -41,7 +42,7 @@ const columns: GridColDef[] = [
         field: 'ageLimit',
         headerName: 'Возврастные ограничения',
         minWidth: 100,
-        renderCell: params => <Link to={`/age/${params.value.id}`}>{params.value.value}</Link>
+        renderCell: params => <Link to={`/age/${params.value.id}`}>{params.value.id}</Link>
     },
     {
         field: 'countries', headerName: 'Страны', minWidth: 300, renderCell: params => {
@@ -53,8 +54,18 @@ const columns: GridColDef[] = [
         }
     },
     {
-        field: '', headerName: 'Постеры', minWidth: 150, renderCell: params => (
+        field: 'posters', headerName: 'Постеры', minWidth: 150, renderCell: params => (
             <Button color='secondary' href={`/posters?film=${params.id}`}>Постеры...</Button>
+        )
+    },
+    {
+        field: 'с', headerName: 'Кинопоказы', minWidth: 150, renderCell: params => (
+            <Button color='secondary' href={`/screenings?film=${params.id}`}>Кинопоказы...</Button>
+        )
+    },
+    {
+        field: 'duration', headerName: 'Продолжительность', minWidth: 150, renderCell: params => (
+            <p>{params.getValue(params.id, 'duration')} мин</p>
         )
     }
 ]
@@ -87,7 +98,7 @@ export default function FilmList(props: FilmPageProps) {
         getAll(state);
     }, [])
 
-
+    console.log(duration.toMinutes('PT1H3M'));
     function getAll(requestState: FilmListState) {
         console.log(requestState);
         $api.get<IPage<FilmType>>(`/admin/films?size=${requestState.data.size}&page=${requestState.data.number}` +
@@ -156,6 +167,7 @@ export default function FilmList(props: FilmPageProps) {
                 </Stack>
             </Button>
             <DataGrid pageSize={state.data.size}
+                      autoHeight
                       isRowSelectable={() => false}
                       editMode='row'
                       columns={columns}

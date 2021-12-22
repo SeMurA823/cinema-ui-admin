@@ -13,7 +13,9 @@ export default function GeneralPage(props: IGeneralPage) {
         <>
             <Header/>
             <div style={{height: 80}}/>
-            {props.children}
+            <main style={{minHeight: '100vh'}}>
+                {props.children}
+            </main>
         </>
     )
 }

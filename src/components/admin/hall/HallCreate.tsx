@@ -28,7 +28,7 @@ export default function HallCreate() {
     async function save() {
         setLoaded(false);
         try {
-            const response = await $api.post<CountryType>(`/admin/halls/create`, JSON.stringify({
+            await $api.post<CountryType>(`/admin/halls/create`, JSON.stringify({
                 id: id,
                 name: name,
             } as CountryRequest));

@@ -63,26 +63,42 @@ export default function SeatList() {
     }
 
     const addItem = async (row: number) => {
-        await $api.post(`/admin/halls/${hallId}/seats/create?row=${row}`, {});
-        getAll();
+        try {
+            await $api.post(`/admin/halls/${hallId}/seats/create?row=${row}`, {});
+            getAll();
+        } catch (e) {
+            setError(true);
+        }
     }
 
     const deleteSelectedItems = async () => {
-        await $api.delete(`/admin/halls/${hallId}/seats?id=${clickList.map(x => x.id)}`);
-        clickList.splice(0, clickList.length);
-        getAll();
+        try {
+            await $api.delete(`/admin/halls/${hallId}/seats?id=${clickList.map(x => x.id)}`);
+            clickList.splice(0, clickList.length);
+            getAll();
+        } catch (e) {
+            setError(true);
+        }
     }
 
     const disableSelectedItems = async () => {
-        await $api.post(`/admin/halls/${hallId}/seats?id=${clickList.map(x => x.id)}&used=false`)
-        clickList.splice(0, clickList.length);
-        getAll();
+        try {
+            await $api.post(`/admin/halls/${hallId}/seats?id=${clickList.map(x => x.id)}&used=false`)
+            clickList.splice(0, clickList.length);
+            getAll();
+        } catch (e) {
+            setError(true);
+        }
     }
 
     const enableSelectedItems = async () => {
-        await $api.post(`/admin/halls/${hallId}/seats?id=${clickList.map(x => x.id)}&used=true`)
-        clickList.splice(0, clickList.length);
-        getAll();
+        try {
+            await $api.post(`/admin/halls/${hallId}/seats?id=${clickList.map(x => x.id)}&used=true`)
+            clickList.splice(0, clickList.length);
+            getAll();
+        } catch (e) {
+            setError(true);
+        }
     }
 
     if (!loaded)
@@ -108,8 +124,6 @@ export default function SeatList() {
             </Button>
         </Stack>
     ));
-
-    console.log(clickList);
     return (
         <>
             <Stack padding={2}>

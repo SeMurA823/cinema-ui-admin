@@ -32,7 +32,16 @@ export default function HomePage() {
                             variant='outlined'>
                         Залы
                     </Button>
-
+                    <Button style={{minWidth: 200, maxWidth: '25%', height: 200, width: '100%', margin: 20}}
+                            href='/makers'
+                            variant='outlined'>
+                        Киноделы
+                    </Button>
+                    <Button style={{minWidth: 200, maxWidth: '25%', height: 200, width: '100%', margin: 20}}
+                            href='/purchases'
+                            variant='outlined'>
+                        Продажи
+                    </Button>
                 </Stack>
             </Stack>
         </>

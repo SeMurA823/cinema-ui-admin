@@ -1,8 +1,8 @@
 import React, {useContext} from "react";
 import {AppBar, Avatar, Badge, Box, Button, CircularProgress, Container, Toolbar, Typography} from "@mui/material";
 import {Context} from "../index";
-import {observer} from "mobx-react-lite"
 import {useNavigate} from "react-router-dom";
+import {observer} from "mobx-react-lite";
 
 function stringToColor(str: string) {
     let hash = 0;
@@ -41,9 +41,7 @@ function Header() {
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
                         <Button onClick={() => navigate('/')}>
-                            <Badge badgeContent={'admin'} color='error' component='div'
-                                   sx={{mr: 2, display: {xs: 'none', md: 'flex'}}}>
-
+                            <Badge badgeContent={'admin'} color='error' component='div'>
                                 <Typography
                                     variant="h6"
                                     noWrap
@@ -53,14 +51,14 @@ function Header() {
                                 </Typography>
                             </Badge>
                         </Button>
-                        <Box sx={{flexGrow: 5, display: {xs: 'none', md: 'flex'}}}>
+                        <Box sx={{flexGrow: 5, display: 'flex'}}>
                             {/*<Button*/}
                             {/*    sx={{my: 2, color: 'white', display: 'block'}}*/}
                             {/*>*/}
 
                             {/*</Button>*/}
                         </Box>
-                        <Box sx={{flexGrow: 0, display: {xs: 'none', md: 'flex'}}}>
+                        <Box sx={{flexGrow: 0, display: 'flex'}}>
                             {(!store.isAuth && store.loaded) &&
                                 <Button
                                     sx={{my: 2, color: 'white', display: 'block'}}
@@ -89,4 +87,4 @@ function Header() {
     )
 }
 
-export default observer(Header)
+export default observer(Header);

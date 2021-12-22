@@ -7,6 +7,7 @@ import {
     Alert,
     Autocomplete,
     Button,
+    Divider,
     FormControlLabel,
     FormGroup,
     Stack,
@@ -19,6 +20,7 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import {DatePicker} from '@mui/lab';
 import {AgeLimitType} from "../../types/AgeLimitTypes";
 import {CountryType} from "../../types/CountryTypes";
+import FilmMakerBlock from "./FilmMakerBlock";
 
 type FilmRequest = {
     id: number,
@@ -28,7 +30,8 @@ type FilmRequest = {
     plot: string,
     countriesId: string[],
     ageLimitId: string,
-    isActive: boolean
+    isActive: boolean,
+    duration: number
 }
 
 
@@ -36,6 +39,7 @@ export default function FilmEdit() {
     const params = useParams();
     const filmId = params.id;
 
+    const [duration, setDuration] = useState<number>(0)
     const [loaded, setLoaded] = useState<boolean>(false);
     const [error, setError] = useState<boolean>(false);
     const [id, setId] = useState<number>(0);
@@ -51,6 +55,7 @@ export default function FilmEdit() {
     const [countryListLoaded, setCountryListLoaded] = useState<boolean>(false);
     const [isActive, setIsActive] = useState<boolean>(false);
     const [success, setSuccess] = useState<boolean>(false);
+
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -67,7 +72,8 @@ export default function FilmEdit() {
             worldPremiere: worldPremiere,
             ageLimitId: ageLimit.id,
             countriesId: countries.map(x => x.id),
-            isActive: isActive
+            isActive: isActive,
+            duration: duration
         } as FilmRequest))
             .then((response) => {
                 if (response.status !== 200)
@@ -133,6 +139,7 @@ export default function FilmEdit() {
                 setCountries(data.countries);
                 setPlot(data.plot);
                 setIsActive(data.active);
+                setDuration(data.duration)
             })
             .catch(error => {
                 console.log(error);
@@ -148,8 +155,7 @@ export default function FilmEdit() {
 
     if (!loaded)
         return (<LoadingPage/>)
-    console.log(`ERROR: ${error}`);
-    console.log(`SUCCESS: ${success}`)
+
     return (
         <Stack alignItems='center' minHeight='100vh'>
             {(error && !success) &&
@@ -181,8 +187,11 @@ export default function FilmEdit() {
                         onChange={(date, selectionState) => setWorldPremiere((date) ? date : new Date())}
                         renderInput={(params) => <TextField {...params}/>}/>
                 </LocalizationProvider>
+                <TextField type='number' inputProps={{inputMode: 'numeric', pattern: '[0-9]*'}} value={duration}
+                           onChange={event => {
+                               setDuration(+event.target.value)
+                           }}/>
                 <Autocomplete
-                    isOptionEqualToValue={() => true}
                     options={ageLimits}
                     loading={!ageLimitsLoaded}
                     defaultValue={ageLimit}
@@ -191,8 +200,11 @@ export default function FilmEdit() {
                             setAgeLimit(value)
                         }
                     }}
+                    onOpen={event => {
+                        getAgeLimits()
+                    }}
                     getOptionDisabled={(option) => ageLimit === option}
-                    getOptionLabel={(option) => option.value}
+                    getOptionLabel={(option) => option.id}
                     renderInput={(params) => (
                         <TextField
                             {...params}
@@ -221,6 +233,8 @@ export default function FilmEdit() {
                             label='Страны'/>
                     )}
                 />
+                <Divider/>
+                <FilmMakerBlock filmId={Number(filmId)}/>
                 {(!error && success) &&
                     <Alert severity='success'>Изменено</Alert>
                 }

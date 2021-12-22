@@ -5,8 +5,8 @@ import UserService from "../services/UserService";
 
 export default class Store {
     user = {} as IUser;
-    isAuth = false as boolean;
-    loaded = true;
+    isAuth = false;
+    loaded = false;
 
     constructor() {
         makeAutoObservable(this);
@@ -64,6 +64,7 @@ export default class Store {
             this.setAuth(true);
         } catch (e) {
             this.setAuth(false);
+            this.setUser({} as IUser);
         } finally {
             this.setLoaded(true);
         }
