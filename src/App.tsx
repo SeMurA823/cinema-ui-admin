@@ -29,6 +29,15 @@ import FilmScreeningCreate from "./components/admin/screening/FilmScreeningCreat
 import FilmScreeningEdit from "./components/admin/screening/FilmScreeningEdit";
 import PurchaseList from "./components/admin/purchase/PurchaseList";
 import TicketList from "./components/admin/purchase/TicketList";
+import moment from "moment";
+import 'moment/locale/ru'
+
+moment.locale('ru');
+
+
+export function formater(date: Date) {
+    return moment(date);
+}
 
 function App() {
     const {store} = useContext(Context);

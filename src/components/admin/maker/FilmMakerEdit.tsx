@@ -31,7 +31,7 @@ export default function FilmMakerEdit() {
         const asyncFoo = async () => {
             try {
                 setLoaded(false);
-                const response = await $api.get<FilmMakerType>(`/filmmakers/${makerId}`);
+                const response = await $api.get<FilmMakerType>(`/filmmakers/${makerId}?anystatus`);
                 const data = response.data;
                 setId(data.id);
                 setFirstName(data.firstName);
@@ -48,7 +48,7 @@ export default function FilmMakerEdit() {
     async function save() {
         setLoaded(false);
         try {
-            await $api.post(`/admin/filmmakers/${makerId}`, JSON.stringify({
+            await $api.post(`/filmmakers/${makerId}`, JSON.stringify({
                 id: id,
                 firstName: firstName,
                 lastName: lastName,

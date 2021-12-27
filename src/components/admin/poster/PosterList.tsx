@@ -56,7 +56,7 @@ export default function PosterList() {
 
     function getAll(requestState: PosterListState) {
         console.log(requestState);
-        $api.get<IPage<PosterType>>(`/admin/posters?size=${requestState.data.size}&page=${requestState.data.number}` +
+        $api.get<IPage<PosterType>>(`/posters?size=${requestState.data.size}&page=${requestState.data.number}&anystatus` +
             `&sort=${requestState.sort.filter(x => x.sort === 'asc').map(x => x.field)},asc` +
             `&sort=${requestState.sort.filter(x => x.sort === 'desc').map(x => x.field)},desc` +
             `&film=${filmId}`)

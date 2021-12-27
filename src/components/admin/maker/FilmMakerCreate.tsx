@@ -29,7 +29,7 @@ export default function FilmMakerCreate() {
     async function save() {
         setLoaded(false);
         try {
-            await $api.post(`/admin/filmmakers/create`, JSON.stringify({
+            await $api.post(`/filmmakers/create`, JSON.stringify({
                 id: id,
                 firstName: firstName,
                 lastName: lastName,

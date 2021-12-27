@@ -1,10 +1,13 @@
+import imageCompression from "browser-image-compression";
+
 export default class FileService {
-    static async toBase64(blob: Blob) {
-        return new Promise<string | ArrayBuffer | null>(((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(blob);
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = (error) => reject(error);
-        }))
+    static async toBase64(file: File) {
+        const compressedFile = await imageCompression(file,
+            {
+                maxWidthOrHeight: 800,
+                maxSizeMB: 0.5
+            });
+        const base64 = await imageCompression.getDataUrlFromFile(compressedFile);
+        return base64;
     }
 }

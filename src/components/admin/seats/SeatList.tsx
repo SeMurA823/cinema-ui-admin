@@ -45,7 +45,7 @@ export default function SeatList() {
         )
 
     function getAll() {
-        $api.get<Array<Array<SeatType>>>(`/admin/halls/${hallId}/seats`)
+        $api.get<Array<Array<SeatType>>>(`/halls/${hallId}/seats?anystatus`)
             .then(response => response.data)
             .then(data => {
                 setState(data);

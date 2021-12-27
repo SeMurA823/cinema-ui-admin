@@ -11,6 +11,7 @@ import {CountryType} from "../../types/CountryTypes";
 import {Context} from '../../..';
 import $api from '../../../http/config';
 import LoadingPage from '../../LoadingPage';
+import {formater} from "../../../App";
 
 
 type FilmListState = {
@@ -27,8 +28,14 @@ type FilmPageProps = {
 const columns: GridColDef[] = [
     {field: 'id', headerName: 'ID', minWidth: 50},
     {field: 'name', headerName: 'Название', minWidth: 150},
-    {field: 'localPremiere', headerName: 'Местная премьера', minWidth: 100},
-    {field: 'worldPremiere', headerName: 'Мировая премьера', minWidth: 100},
+    {
+        field: 'localPremiere', headerName: 'Местная премьера', minWidth: 125, renderCell: params =>
+            (<p>{formater(new Date(params.row.localPremiere)).format('l')}</p>)
+    },
+    {
+        field: 'worldPremiere', headerName: 'Мировая премьера', minWidth: 125, renderCell: params =>
+            (<p>{formater(new Date(params.row.worldPremiere)).format('l')}</p>)
+    },
     {field: 'plot', headerName: 'Сюжет', minWidth: 250},
     {
         field: 'active',
@@ -99,9 +106,10 @@ export default function FilmList(props: FilmPageProps) {
     }, [])
 
     console.log(duration.toMinutes('PT1H3M'));
+
     function getAll(requestState: FilmListState) {
         console.log(requestState);
-        $api.get<IPage<FilmType>>(`/admin/films?size=${requestState.data.size}&page=${requestState.data.number}` +
+        $api.get<IPage<FilmType>>(`/films?size=${requestState.data.size}&page=${requestState.data.number}&anystatus` +
             `&sort=${requestState.sort.filter(x => x.sort === 'asc').map(x => x.field)},asc&sort=${requestState.sort.filter(x => x.sort === 'desc').map(x => x.field)},desc`)
             .then(response => response.data)
             .then(data => {

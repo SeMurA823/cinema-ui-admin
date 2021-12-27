@@ -84,7 +84,7 @@ export default function HallList() {
     async function getAll(requestState: HallListState) {
         setLoaded(false);
         try {
-            const response = await $api.get<IPage<HallType>>(`/admin/halls?size=${requestState.data.size}&page=${requestState.data.number}` +
+            const response = await $api.get<IPage<HallType>>(`/halls?anystatus&size=${requestState.data.size}&page=${requestState.data.number}` +
                 `&sort=${requestState.sort.filter(x => x.sort === 'asc').map(x => x.field)},asc&sort=${requestState.sort.filter(x => x.sort === 'desc').map(x => x.field)},desc`);
             setState({
                 ...state

@@ -26,7 +26,7 @@ export default function FilmMakerBlock(props: FilmMakerBlockProps) {
     async function getPosts() {
         try {
             setLoaded(false);
-            const response = await $api.get<Dictionary>(`/filmmakers?film=${props.filmId}`);
+            const response = await $api.get<Dictionary>(`/filmmakers?film=${props.filmId}&anystatus`);
             const data: Dictionary = response.data;
             console.log(data);
             setMakers(data);

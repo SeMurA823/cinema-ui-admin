@@ -64,7 +64,7 @@ export default function FilmEdit() {
     }
     const save = () => {
         setLoaded(false);
-        $api.post<any>(`/admin/films/${id}`, JSON.stringify({
+        $api.post<any>(`/films/${id}`, JSON.stringify({
             id: id,
             name: name,
             plot: plot,
@@ -94,7 +94,7 @@ export default function FilmEdit() {
 
     const del = () => {
         setLoaded(false);
-        $api.delete(`/admin/films/${id}`)
+        $api.delete(`/films/${id}`)
             .then(() => navigate(-1))
             .catch(() => setError(true))
             .finally(() => setLoaded(true));
@@ -128,7 +128,7 @@ export default function FilmEdit() {
     }
     useEffect(() => {
         setLoaded(false);
-        $api.get<FilmType>(`/films/${filmId}`)
+        $api.get<FilmType>(`/films/${filmId}?anystatus`)
             .then(response => response.data)
             .then(data => {
                 setId(data.id);

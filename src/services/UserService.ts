@@ -4,6 +4,6 @@ import $api from "../http/config";
 
 export default class UserService {
     static async getUser(): Promise<AxiosResponse<IUser>> {
-        return $api.get<IUser>("/user");
+        return $api.get<IUser>("/users/profile");
     }
 }

@@ -19,6 +19,7 @@ import {DatePicker} from '@mui/lab';
 import {AgeLimitType} from "../../types/AgeLimitTypes";
 import {CountryType} from "../../types/CountryTypes";
 
+
 type FilmRequest = {
     id: number,
     name: string,
@@ -55,8 +56,10 @@ export default function FilmCreate() {
     }
 
     const save = () => {
+        setSuccess(false);
+        setError(false);
         setLoaded(false);
-        $api.post<any>(`/admin/films/create`, JSON.stringify({
+        $api.post<any>(`/films/create`, JSON.stringify({
             name: name,
             plot: plot,
             localPremiere: localPremiere,
@@ -130,14 +133,14 @@ export default function FilmCreate() {
                            onChange={event => setPlot(event.target.value)}/>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DatePicker
-                        value={localPremiere}
+                        value={new Date(localPremiere)}
                         label='Местная премьера'
                         onChange={(date, selectionState) => setLocalPremiere((date) ? date : new Date())}
                         renderInput={(params) => <TextField {...params}/>}/>
                 </LocalizationProvider>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DatePicker
-                        value={worldPremiere}
+                        value={new Date(worldPremiere)}
                         label='Глобальная премьера'
                         onChange={(date, selectionState) => setWorldPremiere((date) ? date : new Date())}
                         renderInput={(params) => <TextField {...params}/>}/>

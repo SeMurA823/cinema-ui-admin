@@ -90,7 +90,7 @@ export default function FilmScreeningEdit() {
         const asyncFoo = async () => {
             setLoaded(false);
             try {
-                const response = await $api.get(`/screenings/${id}`);
+                const response = await $api.get(`/screenings/${id}?anystatus`);
                 const data = response.data;
                 setHall(data.hall);
                 setDate(data.date);

@@ -49,6 +49,8 @@ export default function FilmScreeningCreate() {
     }
 
     const save = () => {
+        setSuccess(false);
+        setError(false);
         setLoaded(false);
         $api.post<any>(`/screenings/create`, JSON.stringify({
             date: date,
@@ -88,12 +90,9 @@ export default function FilmScreeningCreate() {
     if (!loaded)
         return (<LoadingPage/>)
 
-    if (loaded && error)
-        return (<Alert severity='error'>Ошибка</Alert>);
-
     return (
         <Stack alignItems='center' minHeight='100vh'>
-            {error && <Alert severity='error'>Ошибка</Alert>}
+            {error && <Alert severity='error'>Зал занят</Alert>}
             <Stack style={{maxWidth: 768}} spacing={2}>
                 <Typography variant='h3' padding={2}>Создание</Typography>
                 <FormGroup>

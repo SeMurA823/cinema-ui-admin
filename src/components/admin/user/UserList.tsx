@@ -79,7 +79,7 @@ export default function UserList(props: FilmPageProps) {
 
     function getAll(requestState: UserListState): Promise<void> {
         console.log(requestState);
-        const promise = $api.get<IPage<IUser>>(`/admin/users?size=${requestState.data.size}&page=${requestState.data.number}` +
+        const promise = $api.get<IPage<IUser>>(`/users?size=${requestState.data.size}&page=${requestState.data.number}` +
             `&sort=${requestState.sort.filter(x => x.sort === 'asc').map(x => x.field)},asc&sort=${requestState.sort.filter(x => x.sort === 'desc').map(x => x.field)},desc`)
             .then(response => response.data)
             .then(data => {
@@ -106,7 +106,7 @@ export default function UserList(props: FilmPageProps) {
 
     async function setStatusSelectedUser(status: string) {
         try {
-            await $api.post(`/admin/users/edit?status=${status}&id=${selectedRowData.map(x => x.id)}`);
+            await $api.post(`/users/edit?status=${status}&id=${selectedRowData.map(x => x.id)}`);
             getAll(state);
         } catch (e) {
             setError(true);

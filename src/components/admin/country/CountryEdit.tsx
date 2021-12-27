@@ -31,7 +31,7 @@ export default function CountryEdit() {
 
     const save = () => {
         setLoaded(false);
-        $api.post<any>(`/admin/countries/${id}`, JSON.stringify({
+        $api.post<any>(`/countries/${id}`, JSON.stringify({
             id: id,
             shortName: shortName,
             fullName: fullName
@@ -55,7 +55,7 @@ export default function CountryEdit() {
 
     const del = () => {
         setLoaded(false);
-        $api.delete(`/admin/countries/${id}`)
+        $api.delete(`/countries/${id}`)
             .then(() => navigate(-1))
             .catch(() => setError(true))
             .finally(() => setLoaded(true));

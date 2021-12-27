@@ -8,6 +8,7 @@ import {Add, Block, Done} from "@mui/icons-material";
 import $api from '../../../http/config';
 import LoadingPage from '../../LoadingPage';
 import {ScreeningType} from "../../types/ScreeningTypes";
+import {formater} from "../../../App";
 
 
 type ScreeningListState = {
@@ -23,28 +24,30 @@ type ScreeningPageProps = {
 
 const columns: GridColDef[] = [
     {field: 'id', headerName: 'ID', minWidth: 50},
-    {field: 'date', headerName: 'Дата', minWidth: 200},
-    {field: 'price', headerName: 'Цена', minWidth: 100},
+    {
+        field: 'date',
+        headerName: 'Дата',
+        minWidth: 200,
+        renderCell: params => (<p>{formater(new Date(params.row.date)).format('lll')}</p>)
+    },
+    {
+        field: 'price', headerName: 'Цена', minWidth: 100, renderCell: params =>
+            (<p>{params.row.price} P</p>)
+    },
     {
         field: 'active',
         headerName: 'Активен',
         minWidth: 80,
         sortable: false,
         align: 'center',
-        renderCell: (params) => (params.value ? <Done color='success'/> : <Block color='error'/>)
+        renderCell: (params) => ((params.value && (new Date(params.row.date) > new Date())) ? <Done color='success'/> :
+            <Block color='error'/>)
     },
     {
         field: 'hall',
         headerName: 'Зал',
         minWidth: 100,
         renderCell: params => <Link to={`/halls/${params.value.id}`}>{params.value.name}</Link>
-    },
-    {
-        field: '',
-        headerName: 'Билеты',
-        minWidth: 100,
-        renderCell: params => (
-            <Button color='secondary' variant='outlined' href={`/tickets?screening=${params.id}`}>Билеты...</Button>)
     }
 ]
 
@@ -80,7 +83,7 @@ export default function FilmScreeningList(props: ScreeningPageProps) {
 
 
     function getAll(requestState: ScreeningListState) {
-        $api.get<IPage<ScreeningType>>(`/screenings?film=${filmId}&size=${requestState.data.size}&page=${requestState.data.number}` +
+        $api.get<IPage<ScreeningType>>(`/screenings?anystatus&film=${filmId}&size=${requestState.data.size}&page=${requestState.data.number}` +
             `&sort=${requestState.sort.filter(x => x.sort === 'asc').map(x => x.field)},asc&sort=${requestState.sort.filter(x => x.sort === 'desc').map(x => x.field)},desc`)
             .then(response => response.data)
             .then(data => {
@@ -147,6 +150,7 @@ export default function FilmScreeningList(props: ScreeningPageProps) {
             </Button>
             <DataGrid pageSize={state.data.size}
                       autoHeight
+                      disableColumnFilter
                       isRowSelectable={() => false}
                       editMode='row'
                       columns={columns}

@@ -7,6 +7,7 @@ import {Block} from "@mui/icons-material";
 import $api from '../../../http/config';
 import LoadingPage from '../../LoadingPage';
 import {PurchaseType} from "../../types/PurchasesTypes";
+import {formater} from "../../../App";
 
 
 type PurchaseState = {
@@ -23,7 +24,10 @@ const columns: GridColDef[] = [
                     {params.row.user.firstName} {params.row.user.lastName} {params.row.user.patronymic}
                 </p>)
     },
-    {field: 'created', headerName: 'Дата', minWidth: 350},
+    {
+        field: 'created', headerName: 'Дата', minWidth: 350, renderCell: params =>
+            (<p>{formater(new Date(params.row.created)).format('DD-MM-YYYY h:mm:ss')}</p>)
+    },
     {
         field: '', headerName: '', renderCell: params => (
             <Button color='secondary' href={`/tickets?purchase=${params.id}`}>
@@ -61,7 +65,7 @@ export default function PurchaseList() {
 
     function getAll(requestState: PurchaseState): Promise<void> {
         console.log(requestState);
-        const promise = $api.get<IPage<PurchaseType>>(`/purchases?size=${requestState.data.size}&page=${requestState.data.number}` +
+        const promise = $api.get<IPage<PurchaseType>>(`/purchases?anystatus&size=${requestState.data.size}&page=${requestState.data.number}` +
             `&sort=${requestState.sort.filter(x => x.sort === 'asc').map(x => x.field)},asc&sort=${requestState.sort.filter(x => x.sort === 'desc').map(x => x.field)},desc`)
             .then(response => response.data)
             .then(data => {

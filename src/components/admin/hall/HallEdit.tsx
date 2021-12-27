@@ -30,7 +30,7 @@ export default function HallEdit() {
     async function save() {
         setLoaded(false);
         try {
-            const response = await $api.post<HallType>(`/admin/halls/${hallId}`, JSON.stringify({
+            const response = await $api.post<HallType>(`/halls/${hallId}`, JSON.stringify({
                 id: id,
                 name: name,
             }));
@@ -50,7 +50,7 @@ export default function HallEdit() {
 
     useEffect(() => {
         setLoaded(false);
-        $api.get<HallType>(`/admin/halls/${hallId}`)
+        $api.get<HallType>(`/halls/${hallId}?anystatus`)
             .then(response => response.data)
             .then(data => {
                 setId(data.id);

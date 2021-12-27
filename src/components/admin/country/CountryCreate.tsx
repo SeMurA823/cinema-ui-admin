@@ -29,7 +29,7 @@ export default function CountryCreate() {
     async function save() {
         setLoaded(false);
         try {
-            const response = await $api.post<CountryType>(`/admin/countries/create`, JSON.stringify({
+            const response = await $api.post<CountryType>(`/countries/create`, JSON.stringify({
                 id: id,
                 shortName: shortName,
                 fullName: fullName

@@ -63,7 +63,7 @@ export default function FilmMakerList() {
 
     function getAll(requestState: UserListState): Promise<void> {
         console.log(requestState);
-        const promise = $api.get<IPage<FilmMakerType>>(`/admin/filmmakers?size=${requestState.data.size}&page=${requestState.data.number}` +
+        const promise = $api.get<IPage<FilmMakerType>>(`/filmmakers?anystatus&size=${requestState.data.size}&page=${requestState.data.number}` +
             `&sort=${requestState.sort.filter(x => x.sort === 'asc').map(x => x.field)},asc&sort=${requestState.sort.filter(x => x.sort === 'desc').map(x => x.field)},desc`)
             .then(response => response.data)
             .then(data => {

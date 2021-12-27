@@ -8,6 +8,7 @@ import {Block, Done} from "@mui/icons-material";
 import $api from '../../../http/config';
 import LoadingPage from '../../LoadingPage';
 import {TicketType} from "../../types/PurchasesTypes";
+import {formater} from "../../../App";
 
 
 type TicketListState = {
@@ -36,7 +37,7 @@ const columns: GridColDef[] = [
     {
         field: 'filmScreening', headerName: 'Кинопоказ', minWidth: 150, sortable: false, renderCell: params => (
             <Link href={`/screenings/${params.row.filmScreening.id}`}>
-                {params.row.filmScreening.date}
+                {formater(new Date(params.row.filmScreening.date)).format('lll')}
             </Link>
         )
     },
@@ -82,7 +83,7 @@ export default function TicketList(props: TicketListProps) {
 
     function getAll(requestState: TicketListState): Promise<void> {
         console.log(requestState);
-        return $api.get<IPage<TicketType>>(`/tickets?purchase=${purchaseId}&size=${requestState.data.size}&page=${requestState.data.number}` +
+        return $api.get<IPage<TicketType>>(`/tickets?anystatus&purchase=${purchaseId}&size=${requestState.data.size}&page=${requestState.data.number}` +
             `&sort=${requestState.sort.filter(x => x.sort === 'asc').map(x => x.field)},asc&sort=${requestState.sort.filter(x => x.sort === 'desc').map(x => x.field)},desc`)
             .then(response => response.data)
             .then(data => {
