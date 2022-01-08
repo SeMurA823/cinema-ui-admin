@@ -35,7 +35,7 @@ import 'moment/locale/ru'
 moment.locale('ru');
 
 
-export function formater(date: Date) {
+export function ruMoment(date: Date) {
     return moment(date);
 }
 

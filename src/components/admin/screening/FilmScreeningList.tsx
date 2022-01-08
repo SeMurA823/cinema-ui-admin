@@ -1,14 +1,15 @@
 import {DataGrid, GridColDef, GridSortDirection, GridSortModel} from '@mui/x-data-grid';
 import React, {useEffect, useState} from "react";
 
-import {Alert, Button, Stack} from "@mui/material";
+import {Alert, Button, Container, Stack, Typography} from "@mui/material";
 import {IPage} from '../../../models/response/IPage';
 import {Link, useNavigate, useSearchParams} from "react-router-dom";
 import {Add, Block, Done} from "@mui/icons-material";
 import $api from '../../../http/config';
 import LoadingPage from '../../LoadingPage';
 import {ScreeningType} from "../../types/ScreeningTypes";
-import {formater} from "../../../App";
+import {ruMoment} from "../../../App";
+import {FilmType} from "../../types/FilmTypes";
 
 
 type ScreeningListState = {
@@ -28,7 +29,7 @@ const columns: GridColDef[] = [
         field: 'date',
         headerName: 'Дата',
         minWidth: 200,
-        renderCell: params => (<p>{formater(new Date(params.row.date)).format('lll')}</p>)
+        renderCell: params => (<p>{ruMoment(new Date(params.row.date)).format('lll')}</p>)
     },
     {
         field: 'price', headerName: 'Цена', minWidth: 100, renderCell: params =>
@@ -76,6 +77,8 @@ export default function FilmScreeningList(props: ScreeningPageProps) {
             }
         ]
     });
+
+    const [film, setFilm] = useState<FilmType>({} as FilmType);
 
     useEffect(() => {
         getAll(state);
@@ -141,7 +144,8 @@ export default function FilmScreeningList(props: ScreeningPageProps) {
         )
 
     return (
-        <>
+        <Container>
+            <Typography variant='h2' fontWeight='bold' color={'blue'}>Кинопоказы</Typography>
             <Button style={{margin: 20}} variant='outlined' color='warning' href={`/screenings/create?film=${filmId}`}>
                 <Stack direction='row' alignItems='center'>
                     <Add/>
@@ -172,7 +176,7 @@ export default function FilmScreeningList(props: ScreeningPageProps) {
                       paginationMode='server'
                       page={state.data.number}
                       rows={state.data.content}/>
-        </>
+        </Container>
 
     );
 }

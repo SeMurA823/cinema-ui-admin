@@ -28,7 +28,7 @@ export default class Store {
         try {
             this.setLoaded(false);
             const response = await AuthService.login(username, password, rememberMe);
-            localStorage.setItem('token', response.data.accessToken);
+            localStorage.setItem('token-admin', response.data.accessToken);
             const responseUser = await UserService.getUser();
             console.log(responseUser.data);
             this.setUser(responseUser.data);
@@ -45,7 +45,7 @@ export default class Store {
         try {
             this.setLoaded(false);
             const response = await AuthService.logout();
-            localStorage.removeItem('token');
+            localStorage.removeItem('token-admin');
             this.setAuth(false);
             this.setUser({} as IUser);
         } catch (e) {

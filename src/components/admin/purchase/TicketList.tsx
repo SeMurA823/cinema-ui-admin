@@ -8,7 +8,7 @@ import {Block, Done} from "@mui/icons-material";
 import $api from '../../../http/config';
 import LoadingPage from '../../LoadingPage';
 import {TicketType} from "../../types/PurchasesTypes";
-import {formater} from "../../../App";
+import {ruMoment} from "../../../App";
 
 
 type TicketListState = {
@@ -37,7 +37,7 @@ const columns: GridColDef[] = [
     {
         field: 'filmScreening', headerName: 'Кинопоказ', minWidth: 150, sortable: false, renderCell: params => (
             <Link href={`/screenings/${params.row.filmScreening.id}`}>
-                {formater(new Date(params.row.filmScreening.date)).format('lll')}
+                {ruMoment(new Date(params.row.filmScreening.date)).format('lll')}
             </Link>
         )
     },

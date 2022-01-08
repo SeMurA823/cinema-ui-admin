@@ -13,11 +13,13 @@ import {
     TextField,
     Typography
 } from "@mui/material";
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import AdapterMoment from '@mui/lab/AdapterMoment';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import {DateTimePicker} from '@mui/lab';
 import {HallType} from "../../types/HallTypes";
 import {IPage} from "../../../models/response/IPage";
+import {Moment} from "moment";
+import {ruMoment} from "../../../App";
 
 type FilmScreeningRequest = {
     date: Date,
@@ -34,7 +36,7 @@ export default function FilmScreeningCreate() {
 
     const [loaded, setLoaded] = useState<boolean>(false);
     const [error, setError] = useState<boolean>(false);
-    const [date, setDate] = useState<Date>(new Date());
+    const [date, setDate] = useState<Moment>(ruMoment(new Date()));
     const [price, setPrice] = useState<number>(0);
     const [hall, setHall] = useState<HallType>({} as HallType);
     const [hallList, setHallList] = useState<Array<HallType>>([]);
@@ -53,7 +55,7 @@ export default function FilmScreeningCreate() {
         setError(false);
         setLoaded(false);
         $api.post<any>(`/screenings/create`, JSON.stringify({
-            date: date,
+            date: date.toDate(),
             price: price,
             hallId: hall.id,
             active: isActive,
@@ -105,11 +107,13 @@ export default function FilmScreeningCreate() {
                                if (!Number.isNaN(event.target.value))
                                    setPrice(Number.parseFloat(event.target.value))
                            }}/>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <LocalizationProvider dateAdapter={AdapterMoment} locale={'ru'}>
                     <DateTimePicker
                         value={date}
+                        inputFormat={"LLL"}
+                        disableMaskedInput
                         label='Дата'
-                        onChange={(date, selectionState) => setDate((date) ? date : new Date())}
+                        onChange={(date, selectionState) => setDate((date) ? date : ruMoment(new Date()))}
                         renderInput={(params) => <TextField {...params}/>}/>
                 </LocalizationProvider>
                 <Autocomplete

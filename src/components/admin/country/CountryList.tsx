@@ -1,7 +1,7 @@
 import {DataGrid, GridColDef, GridSortDirection, GridSortModel} from '@mui/x-data-grid';
 import React, {useContext, useEffect, useState} from "react";
 
-import {Alert, Button, Stack} from "@mui/material";
+import {Alert, Button, Container, Stack, Typography} from "@mui/material";
 import {IPage} from '../../../models/response/IPage';
 import {useNavigate} from "react-router-dom";
 import {Add} from "@mui/icons-material";
@@ -113,7 +113,8 @@ export default function CountryList() {
         )
 
     return (
-        <>
+        <Container>
+            <Typography variant='h2' fontWeight='bold' color={'blue'}>Страны</Typography>
             <Button style={{margin: 20}} variant='outlined' color='warning' href={`/countries/add`}>
                 <Stack direction='row' alignItems='center'>
                     <Add/>
@@ -143,7 +144,7 @@ export default function CountryList() {
                       paginationMode='server'
                       page={state.data.number}
                       rows={state.data.content}/>
-        </>
+        </Container>
 
     );
 }

@@ -21,6 +21,7 @@ import {DatePicker} from '@mui/lab';
 import {AgeLimitType} from "../../types/AgeLimitTypes";
 import {CountryType} from "../../types/CountryTypes";
 import FilmMakerBlock from "./FilmMakerBlock";
+import PurchaseFilmStatComponent from "./PurchaseFilmStatComponent";
 
 type FilmRequest = {
     id: number,
@@ -134,12 +135,13 @@ export default function FilmEdit() {
                 setId(data.id);
                 setName(data.name);
                 setLocalPremiere(data.localPremiere);
+                setWorldPremiere(data.worldPremiere);
                 setAgeLimit(data.ageLimit);
                 setAgeLimits([data.ageLimit])
                 setCountries(data.countries);
                 setPlot(data.plot);
                 setIsActive(data.active);
-                setDuration(data.duration)
+                setDuration(data.duration);
             })
             .catch(error => {
                 console.log(error);
@@ -158,11 +160,21 @@ export default function FilmEdit() {
 
     return (
         <Stack alignItems='center' minHeight='100vh'>
+            <PurchaseFilmStatComponent film={{
+                id: id,
+                name: name,
+                localPremiere: localPremiere,
+                worldPremiere: worldPremiere,
+                ageLimit: ageLimit,
+                plot: plot,
+                active: isActive,
+                duration: duration
+            } as FilmType}/>
             {(error && !success) &&
                 <Alert severity='error'>Ошибка</Alert>
             }
             <Stack style={{maxWidth: 768}} spacing={2}>
-                <Typography variant='h3' padding={2}>Редактирование</Typography>
+                <Typography variant='h4' fontWeight={'bolder'} color={'primary'} padding={2}>{name}</Typography>
                 <TextField fullWidth value={id} label='ID' disabled/>
                 <FormGroup>
                     <FormControlLabel control={<Switch checked={isActive} color={(isActive) ? 'success' : 'warning'}

@@ -1,0 +1,37 @@
+# This workflow will do a clean install of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Node.js CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Docker Hub login
+        run: docker login --username ${{ secrets.USERNAME_HUB }} --password ${{ secrets.PASSWORD_HUB }}
+      - name: Build Docker
+        run: docker build --tag ${{ secrets.USERNAME_HUB }}/cinema-admin-ui:latest .
+      - name: Push into DockerHub
+        run: docker push ${{ secrets.USERNAME_HUB }}/cinema-admin-ui:latest
+  deploy:
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create SSH key file
+        run: |
+          mkdir ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 400 ~/.ssh/id_rsa
+          eval $(ssh-agent)
+          ssh-add ~/.ssh/id_rsa
+          ssh -o StrictHostKeyChecking=no -A azureuser@cinema.eastus.cloudapp.azure.com 'sudo docker stop cinema-admin-ui; sudo docker rm cinema-admin-ui; sudo docker rmi ${{ secrets.USERNAME_HUB }}/cinema-admin-ui; sudo docker run -d -p 8080:80 --name cinema-admin-ui semura823/cinema-admin-ui:latest;'

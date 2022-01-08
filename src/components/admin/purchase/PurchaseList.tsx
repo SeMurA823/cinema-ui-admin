@@ -1,13 +1,13 @@
 import {DataGrid, GridColDef, GridSortModel} from '@mui/x-data-grid';
 import React, {useCallback, useEffect, useState} from "react";
 
-import {Alert, Button, Stack} from "@mui/material";
+import {Alert, Button, Container, Stack, Typography} from "@mui/material";
 import {IPage} from '../../../models/response/IPage';
 import {Block} from "@mui/icons-material";
 import $api from '../../../http/config';
 import LoadingPage from '../../LoadingPage';
 import {PurchaseType} from "../../types/PurchasesTypes";
-import {formater} from "../../../App";
+import {ruMoment} from "../../../App";
 
 
 type PurchaseState = {
@@ -26,7 +26,7 @@ const columns: GridColDef[] = [
     },
     {
         field: 'created', headerName: 'Дата', minWidth: 350, renderCell: params =>
-            (<p>{formater(new Date(params.row.created)).format('DD-MM-YYYY h:mm:ss')}</p>)
+            (<p>{ruMoment(new Date(params.row.created)).format('DD-MM-YYYY h:mm:ss')}</p>)
     },
     {
         field: '', headerName: '', renderCell: params => (
@@ -131,7 +131,8 @@ export default function PurchaseList() {
         )
 
     return (
-        <>
+        <Container>
+            <Typography variant='h2' fontWeight='bold' color={'blue'}>Продажи</Typography>
             {(loaded && error) &&
                 <Alert severity='error'>Ошибка</Alert>
             }
@@ -173,7 +174,7 @@ export default function PurchaseList() {
                       autoHeight
                       page={state.data.number}
                       rows={state.data.content}/>
-        </>
+        </Container>
 
     );
 }
