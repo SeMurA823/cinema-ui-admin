@@ -3,7 +3,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import $api from "../../../http/config";
 import LoadingPage from "../../LoadingPage";
 import {Alert, Button, Stack, TextField, Typography} from "@mui/material";
-import {FilmMakerType} from "../../types/FilmMakerType";
+import {FilmMakerType} from "../../../models/response/FilmMakerType";
 
 type FilmMakerRequest = {
     id: number,

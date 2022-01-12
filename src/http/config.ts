@@ -1,14 +1,14 @@
 import axios from "axios";
 import AuthService from "../services/AuthService";
 
-export const SERVER_URL = "http://semura.eastus.cloudapp.azure.com"
-
-// export const SERVER_URL = "http://localhost:8080"
+// export const SERVER_URL = "http://semura.eastus.cloudapp.azure.com"
+export const SERVER_URL = "http://localhost:8080"
 
 export const API_URL = `${SERVER_URL}/api`
 
 let refreshing: boolean = false;
 let refreshRequest: Promise<any> | null = null;
+
 
 const $api = axios.create({
     withCredentials: true,
@@ -19,13 +19,14 @@ const $api = axios.create({
 })
 
 $api.interceptors.request.use((config) => {
-    const item = localStorage.getItem('token-admin');
-    if (item) {
+    if (localStorage.getItem('token')) {
         // @ts-ignore
-        config.headers.Authorization = `Bearer ${item}`;
+        config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
     }
     return config;
 })
+
+
 
 
 $api.interceptors.response.use((config) => {
@@ -34,11 +35,10 @@ $api.interceptors.response.use((config) => {
     const originalRequest = error.config;
     if (error.response.status === 401 || error.response.status === 403) {
         if (error.config && !error.config._isRetry && !refreshing) {
-            console.log(error.config);
             refreshing = true;
             refreshRequest = AuthService.refresh();
             const response = await refreshRequest;
-            localStorage.setItem('token-admin', response.data.accessToken);
+            localStorage.setItem('token', response.data.accessToken);
             originalRequest._isRetry = true;
             refreshing = false;
             return $api.request(originalRequest);
@@ -48,7 +48,7 @@ $api.interceptors.response.use((config) => {
             return $api.request(originalRequest);
         }
     }
-
+    localStorage.removeItem('token');
     throw error;
 })
 

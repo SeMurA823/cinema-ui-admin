@@ -3,7 +3,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import $api from "../../../http/config";
 import LoadingPage from "../../LoadingPage";
 import {Alert, Button, Stack, TextField, Typography} from "@mui/material";
-import {CountryType} from "../../types/CountryTypes";
+import {CountryType} from "../../../models/response/CountryTypes";
 
 type CountryRequest = {
     id: string,

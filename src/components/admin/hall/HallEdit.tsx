@@ -3,7 +3,7 @@ import {useLocation, useNavigate, useParams} from "react-router-dom";
 import $api from "../../../http/config";
 import LoadingPage from "../../LoadingPage";
 import {Alert, Button, Stack, TextField, Typography} from "@mui/material";
-import {HallType} from "../../types/HallTypes";
+import {HallType} from "../../../models/response/HallTypes";
 
 type CountryRequest = {
     id: string,

@@ -18,20 +18,21 @@ function LoginPage(props: ILoginPage) {
     const {store} = useContext(Context)
 
     const [isAuth, setIsAuth] = useState<boolean>(store.isAuth);
-    const [edited, setEdited] = useState<boolean>(true);
+    const [error, setError] = useState<boolean>(false);
+    const [loaded, setLoaded] = useState<boolean>(true);
 
     const navigate = useNavigate();
 
-    const submitHandler = (e: FormEvent): void => {
+    const submitHandler = async (e: FormEvent) => {
         e.preventDefault();
-        store.login(username, password, rememberMe)
-            .then(x => {
-                setIsAuth(store.isAuth);
-                setEdited(false)
-                if (store.isAuth) {
-                    navigate(-1);
-                }
-            })
+        setLoaded(false);
+        try {
+            await store.login(username, password);
+        } catch (e) {
+            setError(error);
+        } finally {
+            setLoaded(true);
+        }
     }
 
     if (store.isAuth)
@@ -39,22 +40,18 @@ function LoginPage(props: ILoginPage) {
 
     return (
         <Stack direction='column' alignItems='center' justifyContent='center' style={{minHeight: '100vh'}}>
-            <form onSubmit={submitHandler} onChange={e => setEdited(true)}>
+            <form onSubmit={submitHandler} onChange={e => setError(false)}>
                 <Stack alignItems='center' spacing={2}>
                     <Typography color='primary' variant='h2'>Авторизация</Typography>
                     <TextField variant='outlined' type='tel' value={username}
                                onChange={e => setUsername(e.target.value)}/>
                     <TextField variant='outlined' type='password' value={password}
                                onChange={e => setPassword(e.target.value)}/>
-                    <ToggleButton selected={rememberMe} onChange={e => setRememberMe(!rememberMe)} value='checked'
-                                  color='primary'>
-                        Запомнить меня
-                    </ToggleButton>
-                    <ButtonGroup>
+                    <ButtonGroup disabled={!loaded}>
                         <Button type='reset' color='secondary'>Отмена</Button>
                         <Button type='submit' color='primary'>Войти</Button>
                     </ButtonGroup>
-                    {!edited &&
+                    {error &&
                         <Alert severity='error'>Неверный логин или пароль</Alert>
                     }
                 </Stack>

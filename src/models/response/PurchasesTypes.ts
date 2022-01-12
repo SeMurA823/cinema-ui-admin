@@ -1,6 +1,6 @@
 import {SeatType} from "./HallTypes";
 import {ScreeningType} from "./ScreeningTypes";
-import {IUser} from "../../models/response/IUser";
+import {IUser} from "./IUser";
 
 export type TicketType = {
     id: number,

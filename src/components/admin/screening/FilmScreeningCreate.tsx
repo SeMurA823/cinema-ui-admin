@@ -16,13 +16,15 @@ import {
 import AdapterMoment from '@mui/lab/AdapterMoment';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import {DateTimePicker} from '@mui/lab';
-import {HallType} from "../../types/HallTypes";
+import {HallType} from "../../../models/response/HallTypes";
 import {IPage} from "../../../models/response/IPage";
 import {Moment} from "moment";
 import {ruMoment} from "../../../App";
+import {ScheduleScreenings} from "./ScheduleScreenings";
+import {FilmType} from "../../../models/response/FilmTypes";
 
 type FilmScreeningRequest = {
-    date: Date,
+    date: string,
     price: number
     hallId: number,
     active: boolean,
@@ -34,6 +36,7 @@ export default function FilmScreeningCreate() {
     let [searchParams, setSearchParams] = useSearchParams();
     const filmId = (searchParams.get("film")) ? searchParams.get("film") : -1;
 
+    const [film, setFilm] = useState<FilmType>({} as FilmType)
     const [loaded, setLoaded] = useState<boolean>(false);
     const [error, setError] = useState<boolean>(false);
     const [date, setDate] = useState<Moment>(ruMoment(new Date()));
@@ -55,7 +58,7 @@ export default function FilmScreeningCreate() {
         setError(false);
         setLoaded(false);
         $api.post<any>(`/screenings/create`, JSON.stringify({
-            date: date.toDate(),
+            date: date.format(),
             price: price,
             hallId: hall.id,
             active: isActive,
@@ -85,7 +88,16 @@ export default function FilmScreeningCreate() {
     }
 
     useEffect(() => {
-        setLoaded(true);
+        setLoaded(false);
+        const asyncFoo = async () => {
+            try {
+                let response = await $api.get<FilmType>(`/films/${filmId}?anystatus`);
+                setFilm(response.data);
+            } finally {
+                setLoaded(true);
+            }
+        }
+        asyncFoo()
     }, [])
 
 
@@ -96,7 +108,7 @@ export default function FilmScreeningCreate() {
         <Stack alignItems='center' minHeight='100vh'>
             {error && <Alert severity='error'>Зал занят</Alert>}
             <Stack style={{maxWidth: 768}} spacing={2}>
-                <Typography variant='h3' padding={2}>Создание</Typography>
+                <Typography variant='h3' padding={2}>{film.name}</Typography>
                 <FormGroup>
                     <FormControlLabel control={<Switch checked={isActive} color={(isActive) ? 'success' : 'warning'}
                                                        onChange={() => setIsActive(!isActive)}/>}
@@ -110,9 +122,17 @@ export default function FilmScreeningCreate() {
                 <LocalizationProvider dateAdapter={AdapterMoment} locale={'ru'}>
                     <DateTimePicker
                         value={date}
-                        inputFormat={"LLL"}
                         disableMaskedInput
-                        label='Дата'
+                        label='Начало'
+                        onChange={(date, selectionState) => setDate((date) ? date : ruMoment(new Date()))}
+                        renderInput={(params) => <TextField {...params}/>}/>
+                </LocalizationProvider>
+                <LocalizationProvider dateAdapter={AdapterMoment} locale={'ru'}>
+                    <DateTimePicker
+                        readOnly
+                        value={ruMoment(date.toDate()).add(film.duration, 'minute')}
+                        disableMaskedInput
+                        label='Конец'
                         onChange={(date, selectionState) => setDate((date) ? date : ruMoment(new Date()))}
                         renderInput={(params) => <TextField {...params}/>}/>
                 </LocalizationProvider>
@@ -141,6 +161,10 @@ export default function FilmScreeningCreate() {
                             label='Зал'/>
                     )}
                 />
+
+                {hall.id &&
+                    <ScheduleScreenings hallId={hall.id} date={ruMoment(date.toDate())}/>
+                }
                 {(loaded && success) &&
                     <Alert severity='success'>Изменено</Alert>
                 }

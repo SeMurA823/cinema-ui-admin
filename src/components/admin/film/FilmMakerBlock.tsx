@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {FilmMakerType} from "../../types/FilmMakerType";
+import {FilmMakerType} from "../../../models/response/FilmMakerType";
 import {Button, Card, CardContent, Dialog, DialogContent, DialogTitle, Divider, Stack, Typography} from "@mui/material";
 import {Add, Delete} from "@mui/icons-material";
 import FilmMakerForm, {FilmMakerFormResult} from "./FilmMakerForm";

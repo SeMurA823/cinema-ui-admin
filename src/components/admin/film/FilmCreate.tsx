@@ -16,8 +16,8 @@ import {
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import {DatePicker} from '@mui/lab';
-import {AgeLimitType} from "../../types/AgeLimitTypes";
-import {CountryType} from "../../types/CountryTypes";
+import {AgeLimitType} from "../../../models/response/AgeLimitTypes";
+import {CountryType} from "../../../models/response/CountryTypes";
 
 
 type FilmRequest = {

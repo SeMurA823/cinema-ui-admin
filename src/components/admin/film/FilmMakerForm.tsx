@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Autocomplete, Button, Stack, TextField} from "@mui/material";
-import {FilmMakerType} from "../../types/FilmMakerType";
+import {FilmMakerType} from "../../../models/response/FilmMakerType";
 import $api from "../../../http/config";
 import {IPage} from "../../../models/response/IPage";
 

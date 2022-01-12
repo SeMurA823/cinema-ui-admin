@@ -16,7 +16,7 @@ import {
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import {DateTimePicker} from '@mui/lab';
-import {HallType} from "../../types/HallTypes";
+import {HallType} from "../../../models/response/HallTypes";
 import {IPage} from "../../../models/response/IPage";
 
 type FilmScreeningRequest = {

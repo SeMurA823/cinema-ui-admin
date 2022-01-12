@@ -4,10 +4,10 @@ import React, {useContext, useEffect, useState} from "react";
 
 import {Alert, Button, Container, Stack, Typography} from "@mui/material";
 import {IPage} from '../../../models/response/IPage';
-import {FilmType} from "../../types/FilmTypes";
+import {FilmType} from "../../../models/response/FilmTypes";
 import {Link, useNavigate} from "react-router-dom";
 import {Add, Block, Done} from "@mui/icons-material";
-import {CountryType} from "../../types/CountryTypes";
+import {CountryType} from "../../../models/response/CountryTypes";
 import {Context} from '../../..';
 import $api from '../../../http/config';
 import LoadingPage from '../../LoadingPage';

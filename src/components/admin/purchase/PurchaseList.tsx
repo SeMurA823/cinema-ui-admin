@@ -6,7 +6,7 @@ import {IPage} from '../../../models/response/IPage';
 import {Block} from "@mui/icons-material";
 import $api from '../../../http/config';
 import LoadingPage from '../../LoadingPage';
-import {PurchaseType} from "../../types/PurchasesTypes";
+import {PurchaseType} from "../../../models/response/PurchasesTypes";
 import {ruMoment} from "../../../App";
 
 

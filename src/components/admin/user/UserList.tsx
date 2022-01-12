@@ -8,6 +8,7 @@ import {Block, Done, Warning} from "@mui/icons-material";
 import $api from '../../../http/config';
 import LoadingPage from '../../LoadingPage';
 import {IUser} from "../../../models/response/IUser";
+import {log} from "util";
 
 
 type UserListState = {
@@ -45,6 +46,13 @@ const columns: GridColDef[] = [
         field: '', headerName: '', renderCell: params => (
             <Button color='secondary' href={`/roles?user=${params.id}`}>
                 Роли...
+            </Button>
+        )
+    },
+    {
+        field: 'notifications', minWidth: 250, headerName: '', renderCell: params => (
+            <Button color='secondary' href={`/notifications?user=${params.id}`}>
+                Уведомления...
             </Button>
         )
     }
@@ -176,6 +184,8 @@ export default function UserList(props: FilmPageProps) {
                           setSelectedRowData(rowData);
                       }}
                       isRowSelectable={params => true}
+                      filterMode={'server'}
+                      onFilterModelChange={(model, details) => console.log(model.items)}
                       editMode='row'
                       columns={columns}
                       onSortModelChange={(model, details) => {

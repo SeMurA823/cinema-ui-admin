@@ -6,7 +6,7 @@ import {useNavigate, useSearchParams} from "react-router-dom";
 import $api from '../../../http/config';
 import LoadingPage from '../../LoadingPage';
 import {Context} from '../../..';
-import {SeatType} from "../../types/HallTypes";
+import {SeatType} from "../../../models/response/HallTypes";
 import {Add, Delete} from "@mui/icons-material";
 
 const order: GridSortDirection[] = [

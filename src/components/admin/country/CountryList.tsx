@@ -5,7 +5,7 @@ import {Alert, Button, Container, Stack, Typography} from "@mui/material";
 import {IPage} from '../../../models/response/IPage';
 import {useNavigate} from "react-router-dom";
 import {Add} from "@mui/icons-material";
-import {CountryType} from "../../types/CountryTypes";
+import {CountryType} from "../../../models/response/CountryTypes";
 import $api from '../../../http/config';
 import LoadingPage from '../../LoadingPage';
 import {Context} from '../../..';

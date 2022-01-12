@@ -1,5 +1,5 @@
-import {makeAutoObservable} from "mobx";
 import {IUser} from "../models/response/IUser";
+import {makeAutoObservable} from "mobx";
 import AuthService from "../services/AuthService";
 import UserService from "../services/UserService";
 
@@ -7,6 +7,7 @@ export default class Store {
     user = {} as IUser;
     isAuth = false;
     loaded = false;
+    promiseRefresh: Promise<any>|undefined;
 
     constructor() {
         makeAutoObservable(this);
@@ -24,18 +25,19 @@ export default class Store {
         this.loaded = loaded;
     }
 
-    async login(username: string, password: string, rememberMe: boolean) {
+    async login(username: string, password: string) {
         try {
             this.setLoaded(false);
-            const response = await AuthService.login(username, password, rememberMe);
-            localStorage.setItem('token-admin', response.data.accessToken);
+            const response = await AuthService.login(username, password);
+            localStorage.setItem('token', response.data.accessToken);
             const responseUser = await UserService.getUser();
             console.log(responseUser.data);
             this.setUser(responseUser.data);
             this.setAuth(true);
             this.setLoaded(true);
         } catch (e) {
-            this.setAuth(false)
+            this.setAuth(false);
+            throw e;
         } finally {
             this.setLoaded(true);
         }
@@ -45,7 +47,7 @@ export default class Store {
         try {
             this.setLoaded(false);
             const response = await AuthService.logout();
-            localStorage.removeItem('token-admin');
+            localStorage.removeItem('token');
             this.setAuth(false);
             this.setUser({} as IUser);
         } catch (e) {
@@ -56,18 +58,24 @@ export default class Store {
     }
 
     async refresh() {
-        try {
-            this.setLoaded(false);
-            const responseUser = await UserService.getUser();
-            console.log(responseUser.data);
-            this.setUser(responseUser.data);
-            this.setAuth(true);
-        } catch (e) {
-            this.setAuth(false);
-            this.setUser({} as IUser);
-        } finally {
-            this.setLoaded(true);
+        if (this.promiseRefresh) {
+            await this.promiseRefresh;
+        } else {
+            try {
+                this.setLoaded(false);
+                this.promiseRefresh = UserService.getUser();
+                const responseUser = await this.promiseRefresh;
+                console.log(responseUser.data);
+                this.setUser(responseUser.data);
+                this.setAuth(true);
+            } catch (e) {
+                this.setAuth(false);
+                localStorage.removeItem('token');
+                this.setUser({} as IUser);
+            } finally {
+                this.setLoaded(true);
+                this.promiseRefresh = undefined;
+            }
         }
-
     }
 }

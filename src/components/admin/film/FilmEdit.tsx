@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import $api from "../../../http/config";
-import {FilmType} from "../../types/FilmTypes";
+import {FilmType} from "../../../models/response/FilmTypes";
 import LoadingPage from "../../LoadingPage";
 import {
     Alert,
@@ -18,8 +18,8 @@ import {
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import {DatePicker} from '@mui/lab';
-import {AgeLimitType} from "../../types/AgeLimitTypes";
-import {CountryType} from "../../types/CountryTypes";
+import {AgeLimitType} from "../../../models/response/AgeLimitTypes";
+import {CountryType} from "../../../models/response/CountryTypes";
 import FilmMakerBlock from "./FilmMakerBlock";
 import PurchaseFilmStatComponent from "./PurchaseFilmStatComponent";
 
@@ -65,7 +65,7 @@ export default function FilmEdit() {
     }
     const save = () => {
         setLoaded(false);
-        $api.post<any>(`/films/${id}`, JSON.stringify({
+        $api.post<any>(`/films/${id}?anystatus`, JSON.stringify({
             id: id,
             name: name,
             plot: plot,

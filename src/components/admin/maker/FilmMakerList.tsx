@@ -8,7 +8,7 @@ import {Add, Block, Done} from "@mui/icons-material";
 import $api from '../../../http/config';
 import LoadingPage from '../../LoadingPage';
 import {IUser} from "../../../models/response/IUser";
-import {FilmMakerType} from "../../types/FilmMakerType";
+import {FilmMakerType} from "../../../models/response/FilmMakerType";
 
 
 type UserListState = {

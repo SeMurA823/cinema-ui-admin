@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import './App.css';
-import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import {BrowserRouter, Navigate, Route, Routes} from 'react-router-dom';
 import LoginPage from './components/pages/LoginPage';
 import HomePage from "./components/pages/HomePage";
 import {Context} from "./index";
@@ -31,6 +31,7 @@ import PurchaseList from "./components/admin/purchase/PurchaseList";
 import TicketList from "./components/admin/purchase/TicketList";
 import moment from "moment";
 import 'moment/locale/ru'
+import {NotificationList} from "./components/admin/user/NotificationList";
 
 moment.locale('ru');
 
@@ -54,35 +55,40 @@ function App() {
 
     return (
         <BrowserRouter>
-            <GeneralPage>
-                <Routes>
-                    <Route path='/sign-in' element={<LoginPage/>}/>
-                    <Route path='/' element={<AuthenticatedPage><HomePage/></AuthenticatedPage>}/>
-                    <Route path={'/films'} element={<AuthenticatedPage><FilmList/></AuthenticatedPage>}/>
-                    <Route path={'/films/:id'} element={<AuthenticatedPage><FilmEdit/></AuthenticatedPage>}/>
-                    <Route path={'/films/add'} element={<AuthenticatedPage><FilmCreate/></AuthenticatedPage>}/>
-                    <Route path={'/countries'} element={<AuthenticatedPage><CountryList/></AuthenticatedPage>}/>
-                    <Route path={'/countries/:id'} element={<AuthenticatedPage><CountryEdit/></AuthenticatedPage>}/>
-                    <Route path={'/countries/add'} element={<AuthenticatedPage><CountryCreate/></AuthenticatedPage>}/>
-                    <Route path={'/posters'} element={<AuthenticatedPage><PosterList/></AuthenticatedPage>}/>
-                    <Route path={'/halls'} element={<AuthenticatedPage><HallList/></AuthenticatedPage>}/>
-                    <Route path={'/halls/add'} element={<AuthenticatedPage><HallCreate/></AuthenticatedPage>}/>
-                    <Route path={'/halls/:id'} element={<AuthenticatedPage><HallEdit/></AuthenticatedPage>}/>
-                    <Route path={'/seats'} element={<AuthenticatedPage><SeatList/></AuthenticatedPage>}/>
-                    <Route path={'/users'} element={<AuthenticatedPage><UserList/></AuthenticatedPage>}/>
-                    <Route path={'/roles'} element={<AuthenticatedPage><RoleList/></AuthenticatedPage>}/>
-                    <Route path={'/makers'} element={<AuthenticatedPage><FilmMakerList/></AuthenticatedPage>}/>
-                    <Route path={'/makers/create'} element={<AuthenticatedPage><FilmMakerCreate/></AuthenticatedPage>}/>
-                    <Route path={'/makers/:id'} element={<AuthenticatedPage><FilmMakerEdit/></AuthenticatedPage>}/>
-                    <Route path={'/screenings'} element={<AuthenticatedPage><FilmScreeningList/></AuthenticatedPage>}/>
-                    <Route path={'/screenings/create'}
-                           element={<AuthenticatedPage><FilmScreeningCreate/></AuthenticatedPage>}/>
-                    <Route path={'/screenings/:id'}
-                           element={<AuthenticatedPage><FilmScreeningEdit/></AuthenticatedPage>}/>
-                    <Route path={'/purchases'} element={<AuthenticatedPage><PurchaseList/></AuthenticatedPage>}/>
-                    <Route path={'/tickets'} element={<AuthenticatedPage><TicketList/></AuthenticatedPage>}/>
-                </Routes>
-            </GeneralPage>
+            <Routes>
+                <Route path='/sign-in' element={<LoginPage/>}/>
+                <Route path='/' element={<GeneralPage/>}>
+                    <Route path='/' element={<Navigate to='/home'/>}/>
+                    <Route path='home' element={<HomePage/>}/>
+                    <Route path={'films'} element={<FilmList/>}/>
+                    <Route path={'films/:id'} element={<FilmEdit/>}/>
+                    <Route path={'films/add'} element={<FilmCreate/>}/>
+                    <Route path={'countries'} element={<CountryList/>}/>
+                    <Route path={'countries/:id'} element={<CountryEdit/>}/>
+                    <Route path={'countries/add'}
+                           element={<CountryCreate/>}/>
+                    <Route path={'posters'} element={<PosterList/>}/>
+                    <Route path={'halls'} element={<HallList/>}/>
+                    <Route path={'halls/add'} element={<HallCreate/>}/>
+                    <Route path={'halls/:id'} element={<HallEdit/>}/>
+                    <Route path={'seats'} element={<SeatList/>}/>
+                    <Route path={'users'} element={<UserList/>}/>
+                    <Route path={'roles'} element={<RoleList/>}/>
+                    <Route path={'notifications'} element={<NotificationList/>}/>
+                    <Route path={'makers'} element={<FilmMakerList/>}/>
+                    <Route path={'makers/create'}
+                           element={<FilmMakerCreate/>}/>
+                    <Route path={'makers/:id'} element={<FilmMakerEdit/>}/>
+                    <Route path={'screenings'}
+                           element={<FilmScreeningList/>}/>
+                    <Route path={'screenings/create'}
+                           element={<FilmScreeningCreate/>}/>
+                    <Route path={'screenings/:id'}
+                           element={<FilmScreeningEdit/>}/>
+                    <Route path={'purchases'} element={<PurchaseList/>}/>
+                    <Route path={'tickets'} element={<TicketList/>}/>
+                </Route>
+            </Routes>
         </BrowserRouter>
     );
 }

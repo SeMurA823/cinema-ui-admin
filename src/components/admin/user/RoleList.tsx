@@ -6,7 +6,7 @@ import {useNavigate, useSearchParams} from "react-router-dom";
 import {Add, Block} from "@mui/icons-material";
 import $api from '../../../http/config';
 import LoadingPage from '../../LoadingPage';
-import {RoleType} from "../../types/RoleTypes";
+import {RoleType} from "../../../models/response/RoleTypes";
 
 
 type RoleListState = {
@@ -106,12 +106,12 @@ export default function RoleList(props: FilmPageProps) {
                         <span>Админ</span>
                     </Stack>
                 </Button>
-                <Button style={{margin: 20}} color='success' variant='outlined' onClick={() => create('EMPLOYEE')}>
-                    <Stack direction='row' alignItems='center'>
-                        <Add/>
-                        <span>Работник</span>
-                    </Stack>
-                </Button>
+                {/*<Button style={{margin: 20}} color='success' variant='outlined' onClick={() => create('EMPLOYEE')}>*/}
+                {/*    <Stack direction='row' alignItems='center'>*/}
+                {/*        <Add/>*/}
+                {/*        <span>Работник</span>*/}
+                {/*    </Stack>*/}
+                {/*</Button>*/}
                 <Button style={{margin: 20}} color='success' variant='outlined' onClick={() => create('CUSTOMER')}>
                     <Stack direction='row' alignItems='center'>
                         <Add/>

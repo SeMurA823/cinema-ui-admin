@@ -7,7 +7,7 @@ import {useSearchParams} from "react-router-dom";
 import {Block, Done} from "@mui/icons-material";
 import $api from '../../../http/config';
 import LoadingPage from '../../LoadingPage';
-import {TicketType} from "../../types/PurchasesTypes";
+import {TicketType} from "../../../models/response/PurchasesTypes";
 import {ruMoment} from "../../../App";
 
 

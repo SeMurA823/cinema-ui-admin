@@ -7,9 +7,9 @@ import {Link, useNavigate, useSearchParams} from "react-router-dom";
 import {Add, Block, Done} from "@mui/icons-material";
 import $api from '../../../http/config';
 import LoadingPage from '../../LoadingPage';
-import {ScreeningType} from "../../types/ScreeningTypes";
+import {ScreeningType} from "../../../models/response/ScreeningTypes";
 import {ruMoment} from "../../../App";
-import {FilmType} from "../../types/FilmTypes";
+import {FilmType} from "../../../models/response/FilmTypes";
 
 
 type ScreeningListState = {

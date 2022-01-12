@@ -7,3 +7,9 @@ export interface IUser {
     id: number,
     birthSate: Date
 }
+
+
+export type NotificationType = {
+    id: number,
+    message: string
+}

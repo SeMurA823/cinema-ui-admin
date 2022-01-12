@@ -4,7 +4,7 @@ import {Chip, Stack, TextField, Typography} from "@mui/material";
 import {ruMoment} from "../../../App";
 import {Moment} from "moment";
 import LoadingPage from "../../LoadingPage";
-import {FilmType} from "../../types/FilmTypes";
+import {FilmType} from "../../../models/response/FilmTypes";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DateAdapter from '@mui/lab/AdapterMoment';
 import {DatePicker} from "@mui/lab";

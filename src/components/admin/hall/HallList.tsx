@@ -8,7 +8,7 @@ import {Add} from "@mui/icons-material";
 import $api from '../../../http/config';
 import LoadingPage from '../../LoadingPage';
 import {Context} from '../../..';
-import {HallType} from "../../types/HallTypes";
+import {HallType} from "../../../models/response/HallTypes";
 
 
 type HallListState = {

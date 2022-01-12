@@ -8,7 +8,7 @@ import {Delete} from "@mui/icons-material";
 import $api, {SERVER_URL} from '../../../http/config';
 import LoadingPage from '../../LoadingPage';
 import {Context} from '../../..';
-import {PosterType} from "../../types/PosterTypes";
+import {PosterType} from "../../../models/response/PosterTypes";
 import FileService from "../../../services/FileService";
 
 
