@@ -1,8 +1,8 @@
 import axios from "axios";
 import AuthService from "../services/AuthService";
 
-// export const SERVER_URL = "http://semura.eastus.cloudapp.azure.com"
-export const SERVER_URL = "http://localhost:8080"
+export const SERVER_URL = "http://semura.eastus.cloudapp.azure.com"
+// export const SERVER_URL = "http://localhost:8080"
 
 export const API_URL = `${SERVER_URL}/api`
 
