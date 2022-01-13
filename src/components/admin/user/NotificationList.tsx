@@ -1,10 +1,8 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
 import {useSearchParams} from "react-router-dom";
-import {RoleType} from "../../../models/response/RoleTypes";
-import {Button, Stack} from "@mui/material";
+import {Stack} from "@mui/material";
 import $api from "../../../http/config";
-import LoadingPage from "../../LoadingPage";
 import {NotificationType} from "../../../models/response/IUser";
 import {IPage} from "../../../models/response/IPage";
 import {NotifyComponent} from "./NotifyComponent";

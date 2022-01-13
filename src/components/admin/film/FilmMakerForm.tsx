@@ -39,8 +39,9 @@ export default function FilmMakerForm(props: FilmMakerFormProps) {
                         variant='outlined'
                         onChange={async (event) => {
                             setLoadedMakers(false);
+                            let encoded = encodeURI(`/filmmakers?search=${event.target.value}&page=0&size=10`);
                             const response =
-                                await $api.get<IPage<FilmMakerType>>(`/filmmakers?search=${event.target.value}&page=0&size=10`);
+                                await $api.get<IPage<FilmMakerType>>(encoded);
                             const data = response.data;
                             setMakers(data.content);
                             setLoadedMakers(true);

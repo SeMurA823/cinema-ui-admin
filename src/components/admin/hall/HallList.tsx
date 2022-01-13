@@ -1,7 +1,7 @@
 import {DataGrid, GridColDef, GridSortDirection, GridSortModel} from '@mui/x-data-grid';
 import React, {useContext, useEffect, useState} from "react";
 
-import {Alert, Button, Stack} from "@mui/material";
+import {Alert, Button, Stack, Typography} from "@mui/material";
 import {IPage} from '../../../models/response/IPage';
 import {useNavigate} from "react-router-dom";
 import {Add} from "@mui/icons-material";
@@ -134,6 +134,7 @@ export default function HallList() {
 
     return (
         <>
+            <Typography color={'blue'} variant={'h3'} fontWeight={'bold'}>Залы</Typography>
             <Button style={{margin: 20}} variant='outlined' color='warning' href={`/halls/add`}>
                 <Stack direction='row' alignItems='center'>
                     <Add/>

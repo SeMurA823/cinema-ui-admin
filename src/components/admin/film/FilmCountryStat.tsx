@@ -23,7 +23,7 @@ export const FilmCountryStat = (props: Props) => {
         const asyncFoo = async () => {
             try {
                 const response =
-                    await $api.get<FilmCountry[]>(`/stat/filmcountries?start=${props.start.toDate().toDateString()}&end=${props.end.toDate().toDateString()}`);
+                    await $api.get<FilmCountry[]>(decodeURI(`/stat/filmcountries?start=${encodeURIComponent(props.start.toISOString(true))}&end=${encodeURIComponent(props.end.toISOString(true))}`));
                 setData(response.data);
             } finally {
                 setLoaded(true);

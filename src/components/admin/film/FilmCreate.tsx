@@ -13,11 +13,13 @@ import {
     TextField,
     Typography
 } from "@mui/material";
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import {DatePicker} from '@mui/lab';
 import {AgeLimitType} from "../../../models/response/AgeLimitTypes";
 import {CountryType} from "../../../models/response/CountryTypes";
+import DateAdapter from "@mui/lab/AdapterMoment";
+import {ruMoment} from "../../../App";
+import moment, {Moment} from "moment";
 
 
 type FilmRequest = {
@@ -38,8 +40,8 @@ export default function FilmCreate() {
     const [error, setError] = useState<boolean>(false);
     const [name, setName] = useState<string>('');
     const [plot, setPlot] = useState<string>('');
-    const [localPremiere, setLocalPremiere] = useState<Date>(new Date());
-    const [worldPremiere, setWorldPremiere] = useState<Date>(new Date());
+    const [localPremiere, setLocalPremiere] = useState<Moment>(ruMoment(new Date()));
+    const [worldPremiere, setWorldPremiere] = useState<Moment>(ruMoment(new Date()));
     const [duration, setDuration] = useState<number>(0)
     const [ageLimit, setAgeLimit] = useState<AgeLimitType>({} as AgeLimitType)
     const [ageLimits, setAgeLimits] = useState<Array<AgeLimitType>>([]);
@@ -62,13 +64,13 @@ export default function FilmCreate() {
         $api.post<any>(`/films/create`, JSON.stringify({
             name: name,
             plot: plot,
-            localPremiere: localPremiere,
-            worldPremiere: worldPremiere,
+            localPremiere: localPremiere.format(),
+            worldPremiere: worldPremiere.format(),
             ageLimitId: ageLimit.id,
             countriesId: countries.map(x => x.id),
             isActive: isActive,
             duration: duration
-        } as FilmRequest))
+        }))
             .then(() => setSuccess(true))
             .catch(() => setError(true))
             .finally(() => setLoaded(true))
@@ -131,18 +133,18 @@ export default function FilmCreate() {
                            onChange={event => setName(event.target.value)}/>
                 <TextField fullWidth value={plot} label='Сюжет' multiline
                            onChange={event => setPlot(event.target.value)}/>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <LocalizationProvider dateAdapter={DateAdapter}>
                     <DatePicker
-                        value={new Date(localPremiere)}
+                        value={localPremiere}
                         label='Местная премьера'
-                        onChange={(date, selectionState) => setLocalPremiere((date) ? date : new Date())}
+                        onChange={date => setLocalPremiere(date?date:moment())}
                         renderInput={(params) => <TextField {...params}/>}/>
                 </LocalizationProvider>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <LocalizationProvider dateAdapter={DateAdapter}>
                     <DatePicker
-                        value={new Date(worldPremiere)}
+                        value={worldPremiere}
                         label='Глобальная премьера'
-                        onChange={(date, selectionState) => setWorldPremiere((date) ? date : new Date())}
+                        onChange={(date, selectionState) => setWorldPremiere(date?date:moment())}
                         renderInput={(params) => <TextField {...params}/>}/>
                 </LocalizationProvider>
                 <TextField inputProps={{inputMode: 'numeric', pattern: '[0-9]*'}} value={duration}
@@ -188,14 +190,14 @@ export default function FilmCreate() {
                     )}
                 />
                 {(loaded && success) &&
-                    <Alert severity='success'>Изменено</Alert>
+                    <Alert severity='success'>Создано</Alert>
                 }
                 <Stack direction='row' spacing={2} justifyContent='center'>
                     <Button color='inherit' variant='outlined' onClick={() => cancel()}>
                         Назад
                     </Button>
                     <Button color='primary' variant='outlined' onClick={() => save()}>
-                        Готов
+                        Готово
                     </Button>
                 </Stack>
             </Stack>

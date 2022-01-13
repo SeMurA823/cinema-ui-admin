@@ -26,7 +26,7 @@ const columns: GridColDef[] = [
     },
     {
         field: 'created', headerName: 'Дата', minWidth: 350, renderCell: params =>
-            (<p>{ruMoment(new Date(params.row.created)).format('DD-MM-YYYY h:mm:ss')}</p>)
+            (<p>{ruMoment(new Date(params.row.created)).format('DD-MM-YYYY HH:mm:ss')}</p>)
     },
     {
         field: '', headerName: '', renderCell: params => (

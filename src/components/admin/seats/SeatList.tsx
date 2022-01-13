@@ -39,10 +39,6 @@ export default function SeatList() {
         }
     }, []);
 
-    if ((loaded && error) || hallId === null)
-        return (
-            <Alert severity='error'>Ошибка</Alert>
-        )
 
     function getAll() {
         $api.get<Array<Array<SeatType>>>(`/halls/${hallId}/seats?anystatus`)
@@ -127,6 +123,8 @@ export default function SeatList() {
     return (
         <>
             <Stack padding={2}>
+                {((loaded && error) || hallId === null) &&
+                    <Alert severity='error'>Ошибка</Alert>}
                 <Typography variant='h2'>Hall id: {hallId}</Typography>
                 <Stack direction='row' spacing={2}>
                     <p>Выбрано: {clickList.length}</p>

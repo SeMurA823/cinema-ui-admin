@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import $api from "../../../http/config";
 import LoadingPage from "../../LoadingPage";
-import {Alert, Button, Stack, TextField, Typography} from "@mui/material";
+import {Alert, Button, FormControlLabel, FormGroup, Stack, Switch, TextField, Typography} from "@mui/material";
 import {HallType} from "../../../models/response/HallTypes";
 
 type CountryRequest = {
@@ -18,6 +18,7 @@ export default function HallEdit() {
     const [id, setId] = useState<number>(-1);
     const [name, setName] = useState<string>('');
     const [success, setSuccess] = useState<boolean>(false);
+    const [isActive, setActive] = useState<boolean>(true);
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -30,10 +31,11 @@ export default function HallEdit() {
     async function save() {
         setLoaded(false);
         try {
-            const response = await $api.post<HallType>(`/halls/${hallId}`, JSON.stringify({
+            await $api.post<HallType>(`/halls/${hallId}`, JSON.stringify({
                 id: id,
-                name: name,
+                name: name
             }));
+            await $api.post<HallType>(`/halls/${hallId}?status=${isActive?'ACTIVE':'NOT_ACTIVE'}`);
             setSuccess(true);
             setError(false);
         } catch (e) {
@@ -55,6 +57,7 @@ export default function HallEdit() {
             .then(data => {
                 setId(data.id);
                 setName(data.name);
+                setActive(data.active)
             })
             .catch(error => {
                 setError(error)
@@ -71,9 +74,15 @@ export default function HallEdit() {
     return (
         <Stack alignItems='center' minHeight='100vh'>
             {error && <Alert severity='error'>Ошибка</Alert>}
+
             <Stack style={{maxWidth: 768}} spacing={2}>
                 <Typography variant='h3' padding={2}>Редактирование</Typography>
                 <TextField fullWidth value={id} label='ID' disabled/>
+                <FormGroup>
+                    <FormControlLabel control={<Switch checked={isActive} color={(isActive) ? 'success' : 'warning'}
+                                                       onChange={() => setActive(!isActive)}/>}
+                                      label={(isActive) ? 'Включен' : 'Отключен'}/>
+                </FormGroup>
                 <TextField fullWidth value={name} label='Название'
                            onChange={event => setName(event.target.value)}/>
                 {(success) &&

@@ -20,7 +20,6 @@ import HallEdit from "./components/admin/hall/HallEdit";
 import SeatList from "./components/admin/seats/SeatList";
 import UserList from "./components/admin/user/UserList";
 import RoleList from "./components/admin/user/RoleList";
-import AuthenticatedPage from "./components/pages/AuthenticatedPage";
 import FilmMakerList from "./components/admin/maker/FilmMakerList";
 import FilmMakerCreate from "./components/admin/maker/FilmMakerCreate";
 import FilmMakerEdit from "./components/admin/maker/FilmMakerEdit";

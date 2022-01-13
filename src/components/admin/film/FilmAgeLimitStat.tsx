@@ -21,7 +21,7 @@ export default function FilmAgeLimitStat(props: Props) {
     useEffect(() => {
         const asyncFoo = async () => {
             try {
-                const response = await $api.get<LimitCountry[]>(`/stat/filmlimits?start=${props.start.toDate().toDateString()}&end=${props.end.toDate().toDateString()}`);
+                const response = await $api.get<LimitCountry[]>(encodeURI(`/stat/filmlimits?start=${encodeURIComponent(props.start.toISOString(true))}&end=${encodeURIComponent(props.end.toISOString(true))}`));
                 setData(response.data);
             } finally {
                 setLoaded(true);

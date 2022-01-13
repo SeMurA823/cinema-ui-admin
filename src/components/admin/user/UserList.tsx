@@ -8,7 +8,6 @@ import {Block, Done, Warning} from "@mui/icons-material";
 import $api from '../../../http/config';
 import LoadingPage from '../../LoadingPage';
 import {IUser} from "../../../models/response/IUser";
-import {log} from "util";
 
 
 type UserListState = {
