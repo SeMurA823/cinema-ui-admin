@@ -22,16 +22,16 @@ jobs:
         run: docker build --tag ${{ secrets.USERNAME_HUB }}/cinema-admin-ui:latest .
       - name: Push into DockerHub
         run: docker push ${{ secrets.USERNAME_HUB }}/cinema-admin-ui:latest
-#  deploy:
-#    needs: [ build ]
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v2
-#      - name: Create SSH key file
-#        run: |
-#          mkdir ~/.ssh
-#          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-#          chmod 400 ~/.ssh/id_rsa
-#          eval $(ssh-agent)
-#          ssh-add ~/.ssh/id_rsa
-#          ssh -o StrictHostKeyChecking=no -A azureuser@cinema.eastus.cloudapp.azure.com 'sudo docker stop cinema-admin-ui; sudo docker rm cinema-admin-ui; sudo docker rmi ${{ secrets.USERNAME_HUB }}/cinema-admin-ui; sudo docker run -d -p 8080:80 --name cinema-admin-ui semura823/cinema-admin-ui:latest;'
+  deploy:
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create SSH key file
+        run: |
+          mkdir ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 400 ~/.ssh/id_rsa
+          eval $(ssh-agent)
+          ssh-add ~/.ssh/id_rsa
+          ssh -o StrictHostKeyChecking=no -A azureuser@cinemaclient.eastus.cloudapp.azure.com 'sudo docker stop cinema-admin-ui; sudo docker rm cinema-admin-ui; sudo docker rmi ${{ secrets.USERNAME_HUB }}/cinema-admin-ui; sudo docker run -d -p 8080:80 --name cinema-admin-ui ${{ secrets.USERNAME_HUB }}/cinema-admin-ui:latest;'
