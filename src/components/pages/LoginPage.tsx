@@ -1,4 +1,4 @@
-import React, {FormEvent, useContext, useState} from "react";
+import React, {FormEvent, useContext, useEffect, useState} from "react";
 import {Alert, Button, ButtonGroup, Stack, TextField, Typography} from "@mui/material";
 import {Context} from "../../index";
 import {observer} from "mobx-react-lite"
@@ -13,11 +13,9 @@ interface ILoginPage {
 function LoginPage(props: ILoginPage) {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const [rememberMe, setRememberMe] = useState<boolean>(false);
 
     const {store} = useContext(Context)
 
-    const [isAuth, setIsAuth] = useState<boolean>(store.isAuth);
     const [error, setError] = useState<boolean>(false);
     const [loaded, setLoaded] = useState<boolean>(true);
 
@@ -27,13 +25,17 @@ function LoginPage(props: ILoginPage) {
         e.preventDefault();
         setLoaded(false);
         try {
-            await store.login(username, password);
+            await store.login(username, password, false);
         } catch (e) {
             setError(error);
         } finally {
             setLoaded(true);
         }
     }
+
+    useEffect(()=>{
+
+    },[store.loaded])
 
     if (store.isAuth)
         navigate(-1);

@@ -18,7 +18,7 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import {DateTimePicker} from '@mui/lab';
 import {HallType} from "../../../models/response/HallTypes";
 import {IPage} from "../../../models/response/IPage";
-import {Moment} from "moment";
+import moment, {Moment} from "moment";
 import {ruMoment} from "../../../App";
 import {ScheduleScreenings} from "./ScheduleScreenings";
 import {FilmType} from "../../../models/response/FilmTypes";
@@ -58,11 +58,11 @@ export default function FilmScreeningCreate() {
         setError(false);
         setLoaded(false);
         $api.post<any>(`/screenings/create`, JSON.stringify({
-            date: date.format(),
+            date: date.toISOString(),
             price: price,
-            hallId: hall.id,
+            hallId: Number(hall.id),
             active: isActive,
-            filmId: filmId
+            filmId: Number(filmId)
         } as FilmScreeningRequest))
             .then(() => setSuccess(true))
             .catch(() => setError(true))
@@ -122,6 +122,7 @@ export default function FilmScreeningCreate() {
                 <LocalizationProvider dateAdapter={AdapterMoment} locale={'ru'}>
                     <DateTimePicker
                         value={date}
+                        minDateTime={moment()}
                         disableMaskedInput
                         label='Начало'
                         onChange={(date, selectionState) => setDate((date) ? date : ruMoment(new Date()))}
@@ -166,7 +167,7 @@ export default function FilmScreeningCreate() {
                     <ScheduleScreenings hallId={hall.id} date={ruMoment(date.toDate())}/>
                 }
                 {(loaded && success) &&
-                    <Alert severity='success'>Изменено</Alert>
+                    <Alert severity='success'>Создано</Alert>
                 }
                 <Stack direction='row' spacing={2} justifyContent='center'>
                     <Button color='inherit' variant='outlined' onClick={() => cancel()}>
