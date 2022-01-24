@@ -35,11 +35,11 @@ export default function PurchaseFilmStatComponent(props: Props) {
     useEffect(() => {
         const asyncFoo = async () => {
             try {
-                const avgTicketCountResponse = await $api.get<number>(encodeURI(`/stat/averageticketcount?film=${props.film.id}&start=${encodeURIComponent(start.toISOString(true))}&end=${end.toISOString(true)})`));
+                const avgTicketCountResponse = await $api.get<number>(encodeURI(`/stat/averageticketcount?film=${props.film.id}&start=${encodeURIComponent(start.toISOString(false))}&end=${encodeURIComponent(end.toISOString(false))}`));
                 setAverageCount(avgTicketCountResponse.data)
-                let occupancyFilmResponse = await $api.get<number>(encodeURI(`/stat/occupancyfilm?film=${props.film.id}&start=${encodeURIComponent(start.toISOString(true))}&end=${end.toISOString(true)}`));
+                let occupancyFilmResponse = await $api.get<number>(encodeURI(`/stat/occupancyfilm?film=${props.film.id}&start=${encodeURIComponent(start.toISOString(false))}&end=${encodeURIComponent(end.toISOString(false))}`));
                 setOccupancyFilm(occupancyFilmResponse.data);
-                let countTicketsResponse = await $api.get<number>(`/stat/amounttickets?film=${props.film.id}&start=${encodeURIComponent(start.toISOString(true))}&end=${encodeURIComponent(end.toISOString(true))}`);
+                let countTicketsResponse = await $api.get<number>(encodeURI(`/stat/amounttickets?film=${props.film.id}&start=${encodeURIComponent(start.toISOString(false))}&end=${encodeURIComponent(end.toISOString(false))}`));
                 setCountTickets(countTicketsResponse.data);
             } catch (e) {
                 setError(true);

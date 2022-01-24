@@ -24,10 +24,12 @@ function LoginPage(props: ILoginPage) {
     const submitHandler = async (e: FormEvent) => {
         e.preventDefault();
         setLoaded(false);
+        setError(false);
         try {
             await store.login(username, password, false);
+            setError(!store.isAuth);
         } catch (e) {
-            setError(error);
+            setError(true);
         } finally {
             setLoaded(true);
         }
