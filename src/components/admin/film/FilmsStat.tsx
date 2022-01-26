@@ -13,6 +13,7 @@ export const FilmsStat = () => {
     const [start, setStart] = useState<Moment>(ruMoment(new Date()).add(-1, 'month').startOf('day'));
     const [end, setEnd] = useState<Moment>(ruMoment(new Date()));
 
+
     return (
         <Stack spacing={2}>
             <Stack alignItems={'center'} direction={'row'} spacing={2}>
