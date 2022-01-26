@@ -6,7 +6,7 @@ import {DatePicker} from "@mui/lab";
 import {ruMoment} from "../../../App";
 import {FilmCountryStat} from "./FilmCountryStat";
 import FilmAgeLimitStat from "./FilmAgeLimitStat";
-import {Moment} from "moment";
+import moment, {Moment} from "moment";
 
 export const FilmsStat = () => {
 
@@ -22,7 +22,7 @@ export const FilmsStat = () => {
                         value={start}
                         maxDate={end}
                         label='От'
-                        onChange={(date, selectionState) => setStart((date) ? ruMoment(date.toDate()) : ruMoment(new Date()).add(-1, 'month').startOf('day'))}
+                        onChange={(date, selectionState) => setStart((date) ? ruMoment(date.toDate()).startOf('day') : ruMoment(new Date()).add(-1, 'month').startOf('day'))}
                         renderInput={(params) => <TextField color={'primary'} {...params}/>}/>
                 </LocalizationProvider>
                 <LocalizationProvider dateAdapter={DateAdapter} locale={'ru'}>
@@ -31,7 +31,7 @@ export const FilmsStat = () => {
                         value={end}
                         minDate={start}
                         label='До'
-                        onChange={(date, selectionState) => setEnd((date) ? ruMoment(date.toDate()) : ruMoment(new Date()))}
+                        onChange={(date, selectionState) => setEnd((date) ? ruMoment(date.toDate()).endOf('day') : moment().endOf('day'))}
                         renderInput={(params) => <TextField color={'primary'} {...params}/>}/>
                 </LocalizationProvider>
             </Stack>

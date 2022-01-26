@@ -66,7 +66,7 @@ export default function PurchaseFilmStatComponent(props: Props) {
                         value={start}
                         maxDate={end}
                         label='От'
-                        onChange={(date, selectionState) => setStart((date) ? ruMoment(date.toDate()) : ruMoment(new Date()).add(-1, 'month').startOf('day'))}
+                        onChange={(date, selectionState) => setStart((date) ? ruMoment(date.toDate()).startOf('day') : ruMoment(new Date()).add(-1, 'month').startOf('day'))}
                         renderInput={(params) => <TextField color={'primary'} {...params}/>}/>
                 </LocalizationProvider>
                 <LocalizationProvider dateAdapter={DateAdapter} locale={'ru'}>
@@ -75,7 +75,7 @@ export default function PurchaseFilmStatComponent(props: Props) {
                         value={end}
                         minDate={start}
                         label='До'
-                        onChange={(date, selectionState) => setEnd((date) ? ruMoment(date.toDate()) : ruMoment(new Date()))}
+                        onChange={(date, selectionState) => setEnd((date) ? ruMoment(date.toDate()).endOf('day') : ruMoment(new Date()).endOf('day'))}
                         renderInput={(params) => <TextField color={'primary'} {...params}/>}/>
                 </LocalizationProvider>
             </Stack>
