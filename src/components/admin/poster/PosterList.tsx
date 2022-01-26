@@ -10,6 +10,7 @@ import LoadingPage from '../../LoadingPage';
 import {Context} from '../../..';
 import {PosterType} from "../../../models/response/PosterTypes";
 import FileService from "../../../services/FileService";
+import imageCompression from "browser-image-compression";
 
 
 type PosterListState = {
@@ -103,7 +104,13 @@ export default function PosterList() {
         if (files === null || files.length < 1)
             return;
         const file = files[0];
-        const base64 = await FileService.toBase64(file);
+        const fileCompressed = await imageCompression(file, {
+            maxWidthOrHeight: 800,
+            maxSizeMB: 0.08,
+            fileType: 'img/webp',
+            initialQuality: 0.5
+        });
+        const base64 = await FileService.toBase64(fileCompressed);
         const response = await $api.post<PosterType>(`/posters/create`, JSON.stringify({
             filmId: filmId,
             file: base64
