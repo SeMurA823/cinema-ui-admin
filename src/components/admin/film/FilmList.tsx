@@ -50,7 +50,8 @@ const columns: GridColDef[] = [
         field: 'ageLimit',
         headerName: 'Возврастные ограничения',
         minWidth: 100,
-        renderCell: params => <Link to={`/age/${params.value.id}`}>{params.value.id}</Link>
+        sortable: false,
+        renderCell: params => <Typography>{params.value.id}</Typography>
     },
     {
         field: 'countries', headerName: 'Страны', minWidth: 300, renderCell: params => {

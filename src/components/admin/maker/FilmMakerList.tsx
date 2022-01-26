@@ -4,7 +4,7 @@ import React, {useCallback, useEffect, useState} from "react";
 import {Alert, Button, Stack} from "@mui/material";
 import {IPage} from '../../../models/response/IPage';
 import {useNavigate, useSearchParams} from "react-router-dom";
-import {Add, Block, Done} from "@mui/icons-material";
+import {Add, Block, Delete, Done} from "@mui/icons-material";
 import $api from '../../../http/config';
 import LoadingPage from '../../LoadingPage';
 import {IUser} from "../../../models/response/IUser";
@@ -88,9 +88,9 @@ export default function FilmMakerList() {
     }
 
 
-    async function setStatusSelectedMakers(status: string) {
+    async function deleteFilmMakers() {
         try {
-            await $api.post(`/admin/filmmakers?status=${status}&id=${selectedRowData.map(x => x.id)}`);
+            await $api.delete(`/filmmakers?id=${selectedRowData.map(x => x.id)}`);
             getAll(state);
         } catch (e) {
             setError(true);
@@ -141,17 +141,10 @@ export default function FilmMakerList() {
                     </Stack>
                 </Button>
                 <Button style={{margin: 20}} variant='outlined' color='warning'
-                        onClick={() => setStatusSelectedMakers('NOT_ACTIVE')}>
+                        onClick={() => deleteFilmMakers()}>
                     <Stack direction='row' alignItems='center'>
-                        <Block/>
-                        <span>Заблокировать</span>
-                    </Stack>
-                </Button>
-                <Button style={{margin: 20}} variant='outlined' color='warning'
-                        onClick={() => setStatusSelectedMakers('ACTIVE')}>
-                    <Stack direction='row' alignItems='center'>
-                        <Done/>
-                        <span>Активировать</span>
+                        <Delete/>
+                        <span>Удалить</span>
                     </Stack>
                 </Button>
             </Stack>

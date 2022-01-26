@@ -47,9 +47,9 @@ function LoginPage(props: ILoginPage) {
             <form onSubmit={submitHandler} onChange={e => setError(false)}>
                 <Stack alignItems='center' spacing={2}>
                     <Typography color='primary' variant='h2'>Авторизация</Typography>
-                    <TextField variant='outlined' type='tel' value={username}
+                    <TextField variant='outlined' type='tel' value={username} label={'Номер телефона'}
                                onChange={e => setUsername(e.target.value)}/>
-                    <TextField variant='outlined' type='password' value={password}
+                    <TextField variant='outlined' type='password' value={password} label={'Пароль'}
                                onChange={e => setPassword(e.target.value)}/>
                     <ButtonGroup disabled={!loaded}>
                         <Button type='reset' color='secondary'>Отмена</Button>
