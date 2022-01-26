@@ -104,7 +104,7 @@ export default function PosterList() {
             return;
         const file = files[0];
         const base64 = await FileService.toBase64(file);
-        const response = await $api.post<PosterType>(`/admin/posters/create`, JSON.stringify({
+        const response = await $api.post<PosterType>(`/posters/create`, JSON.stringify({
             filmId: filmId,
             file: base64
         }));
@@ -113,7 +113,7 @@ export default function PosterList() {
 
     async function deleteFile(posterId: number) {
         setLoaded(false);
-        let response = await $api.delete(`/admin/posters/${posterId}`);
+        let response = await $api.delete(`/posters/${posterId}`);
         if (response.status !== 200)
             setState({
                 ...state,

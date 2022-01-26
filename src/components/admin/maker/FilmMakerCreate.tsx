@@ -70,7 +70,7 @@ export default function FilmMakerCreate() {
                 <TextField fullWidth value={patronymic} label='Отчество'
                            onChange={event => setPatronymic(event.target.value)}/>
                 {(success) &&
-                    <Alert severity='success'>Созданно</Alert>
+                    <Alert severity='success'>Создано</Alert>
                 }
                 <Stack direction='row' spacing={2} justifyContent='center'>
                     <Button color='inherit' variant='outlined' onClick={() => cancel()}>
