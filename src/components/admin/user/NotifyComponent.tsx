@@ -4,7 +4,7 @@ import $api from "../../../http/config";
 
 type Props = {
     userId: number,
-    onSubmit: (text:string)=>any
+    onSubmit: (text: string) => any
 }
 
 export const NotifyComponent = (props: Props) => {
@@ -19,7 +19,7 @@ export const NotifyComponent = (props: Props) => {
         setError(false);
         try {
             await $api.post(`/notifications/create`, JSON.stringify({
-                'user':props.userId,
+                'user': props.userId,
                 'message': text
             }));
             props.onSubmit(text);
@@ -32,9 +32,11 @@ export const NotifyComponent = (props: Props) => {
 
     return (
         <Stack alignItems={'center'}>
-            <TextField placeholder={'Сообщение'} error={error} value={text} onChange={event => setText(event.target.value)} variant={'outlined'}
+            <TextField placeholder={'Сообщение'} error={error} value={text}
+                       onChange={event => setText(event.target.value)} variant={'outlined'}
                        disabled={!loaded} fullWidth/>
-            <Button color={'success'} variant={'outlined'} disabled={!loaded} onClick={()=>notify()}>Отправить</Button>
+            <Button color={'success'} variant={'outlined'} disabled={!loaded}
+                    onClick={() => notify()}>Отправить</Button>
         </Stack>
     )
 }

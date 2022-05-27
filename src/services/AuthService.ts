@@ -25,6 +25,7 @@ export default class AuthService {
                 withCredentials: true
             })
         }
-        return new Promise(()=>{});
+        return new Promise(() => {
+        });
     }
 }

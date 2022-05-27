@@ -35,9 +35,9 @@ function LoginPage(props: ILoginPage) {
         }
     }
 
-    useEffect(()=>{
+    useEffect(() => {
 
-    },[store.loaded])
+    }, [store.loaded])
 
     if (store.isAuth)
         navigate(-1);

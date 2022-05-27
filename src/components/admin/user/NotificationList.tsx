@@ -16,14 +16,18 @@ export const NotificationList = () => {
     let [searchParams, setSearchParams] = useSearchParams();
     const userId = searchParams.get("user");
 
-    const [state, setState] = useState<IPage<NotificationType>>({content: [] as NotificationType[], number: 0, size: 20} as IPage<NotificationType>);
+    const [state, setState] = useState<IPage<NotificationType>>({
+        content: [] as NotificationType[],
+        number: 0,
+        size: 20
+    } as IPage<NotificationType>);
 
     const [loaded, setLoaded] = useState<boolean>(false);
     const [error, setError] = useState<boolean>(false);
     const [selectedRowData, setSelectedRowData] = useState<NotificationType[]>([]);
 
     useEffect(() => {
-        getNotifications(0,20)
+        getNotifications(0, 20)
     }, [])
 
     const columns: GridColDef[] = [
@@ -50,7 +54,7 @@ export const NotificationList = () => {
     return (
         <Stack>
             <Stack>
-                <NotifyComponent userId={Number(userId)} onSubmit={()=>getNotifications(0,state.size)}/>
+                <NotifyComponent userId={Number(userId)} onSubmit={() => getNotifications(0, state.size)}/>
             </Stack>
             <DataGrid
                 loading={!loaded}

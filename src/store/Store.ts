@@ -7,7 +7,7 @@ export default class Store {
     user = {} as IUser;
     isAuth = (localStorage.getItem(TOKEN_KEY) && true);
     loaded = false;
-    promiseRefresh: Promise<any>|undefined;
+    promiseRefresh: Promise<any> | undefined;
 
     constructor() {
         makeAutoObservable(this);

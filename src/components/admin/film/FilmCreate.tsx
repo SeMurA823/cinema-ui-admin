@@ -137,14 +137,14 @@ export default function FilmCreate() {
                     <DatePicker
                         value={localPremiere}
                         label='Местная премьера'
-                        onChange={date => setLocalPremiere(date?date:moment())}
+                        onChange={date => setLocalPremiere(date ? date : moment())}
                         renderInput={(params) => <TextField {...params}/>}/>
                 </LocalizationProvider>
                 <LocalizationProvider dateAdapter={DateAdapter}>
                     <DatePicker
                         value={worldPremiere}
                         label='Глобальная премьера'
-                        onChange={(date, selectionState) => setWorldPremiere(date?date:moment())}
+                        onChange={(date, selectionState) => setWorldPremiere(date ? date : moment())}
                         renderInput={(params) => <TextField {...params}/>}/>
                 </LocalizationProvider>
                 <TextField inputProps={{inputMode: 'numeric', pattern: '[0-9]*'}} value={duration}

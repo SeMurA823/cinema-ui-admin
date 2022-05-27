@@ -35,7 +35,7 @@ export default function HallEdit() {
                 id: id,
                 name: name
             }));
-            await $api.post<HallType>(`/halls/${hallId}?status=${isActive?'ACTIVE':'NOT_ACTIVE'}`);
+            await $api.post<HallType>(`/halls/${hallId}?status=${isActive ? 'ACTIVE' : 'NOT_ACTIVE'}`);
             setSuccess(true);
             setError(false);
         } catch (e) {
