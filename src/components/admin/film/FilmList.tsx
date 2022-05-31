@@ -171,7 +171,7 @@ export default function FilmList(props: FilmPageProps) {
         <Container>
             <Typography variant='h2' fontWeight='bold' color={'blue'}>Фильмы</Typography>
             <Stack spacing={2} alignItems={'center'}>
-                <FilmsStat/>
+                {/*<FilmsStat/>*/}
             </Stack>
             <Button style={{margin: 20}} variant='outlined' color='warning' href={`/films/add`}>
                 <Stack direction='row' alignItems='center'>
