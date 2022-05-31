@@ -2,8 +2,8 @@ import axios from "axios";
 import moment from "moment";
 import AuthService, {TOKEN_KEY} from "../services/AuthService";
 
-//export const SERVER_URL = "http://cinemaapi.eastus.cloudapp.azure.com"
-export const SERVER_URL = "http://localhost:8080"
+export const SERVER_URL = "http://51.250.105.234:8080"
+//export const SERVER_URL = "http://localhost:8080"
 
 export const API_URL = `${SERVER_URL}/api`
 
